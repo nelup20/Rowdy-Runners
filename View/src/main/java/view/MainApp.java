@@ -3,10 +3,16 @@ package view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Game;
+import model.Grid;
 
 import java.io.IOException;
 
@@ -15,6 +21,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private Pane startScreen;
+    private BorderPane board;
     private MainController mainController;
 
 
@@ -55,14 +62,32 @@ public class MainApp extends Application {
             mainController = loader.getController();
             mainController.setStartStage(startStage);
             startStage.showAndWait();
-            if(mainController.gameCanStart()){
+            if (mainController.gameCanStart()) {
                 game = mainController.getGame();
                 System.out.println(game.player1);
+                setGrid();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void setGrid() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/GameBoard.fxml"));
+            board = loader.load();
+            board.setCenter(game.getGrid().getGridPane());
+
+            rootLayout.setCenter(board);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
