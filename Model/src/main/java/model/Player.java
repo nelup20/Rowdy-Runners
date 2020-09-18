@@ -5,14 +5,23 @@ import java.util.List;
 import java.util.Objects;
 
 public class Player {
-    private final String name;
+    public final String name;
+    public final int id;
     private boolean isAlive = true;
     private List<Coordinate> pastCoordinates;
     private Coordinate currentCoordinate;
+    public static int idCounter = 0;
 
     public Player(String name) {
         this.name = name;
+        this.id = idCounter;
+        idCounter++;
         pastCoordinates = new ArrayList<>();
+
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setCurrentCoordinate(Coordinate coordinate){

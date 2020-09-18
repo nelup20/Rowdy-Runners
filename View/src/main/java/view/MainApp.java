@@ -3,16 +3,10 @@ package view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Game;
-import model.Grid;
 
 import java.io.IOException;
 
@@ -22,7 +16,8 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private Pane startScreen;
     private BorderPane board;
-    private MainController mainController;
+    private StartController startController;
+
 
 
     @Override
@@ -38,7 +33,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/RootLayout.fxml"));
             rootLayout = loader.load();
-            mainController = loader.getController();
+            startController = loader.getController();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -59,12 +54,11 @@ public class MainApp extends Application {
             Scene scene = new Scene(startScreen);
             startStage.setScene(scene);
 
-            mainController = loader.getController();
-            mainController.setStartStage(startStage);
+            startController = loader.getController();
+            startController.setStartStage(startStage);
             startStage.showAndWait();
-            if (mainController.gameCanStart()) {
-                game = mainController.getGame();
-                System.out.println(game.player1);
+            if (startController.gameCanStart()) {
+                game = startController.getGame();
                 setGrid();
             }
 
