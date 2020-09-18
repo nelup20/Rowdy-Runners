@@ -18,14 +18,17 @@ public class Grid {
 
         for (int row = 0; row < size; row++) {
             for (int column = 0; column < size; column++) {
-                Rectangle square = new Rectangle(600 / size, 600 / size);
-                square.setStroke(Color.BLACK);
-                square.setFill(Color.GRAY);
-
-                grid.add(square, row, column);
+                grid.add(getBasicSquare(size), row, column);
 
             }
         }
+    }
+
+    private Rectangle getBasicSquare(int size){
+        Rectangle square = new Rectangle(600/size, 600/size);
+        square.setStroke(Color.GRAY);
+        square.setFill(Color.rgb(235,231,209));
+        return square;
     }
 
     public GridPane getGridPane() {
