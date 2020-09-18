@@ -8,12 +8,24 @@ public class Player {
     private final String name;
     private boolean isAlive = true;
     private List<Coordinate> pastCoordinates;
+    private Coordinate currentCoordinate;
 
-    public Player (String name){
+    public Player(String name) {
         this.name = name;
         pastCoordinates = new ArrayList<>();
     }
 
+    public void setCurrentCoordinate(Coordinate coordinate){
+        this.currentCoordinate = coordinate;
+    }
+
+    public void addCoordinate(Coordinate coordinate){
+        pastCoordinates.add(coordinate);
+    }
+
+    public Coordinate getCurrentCoordinate() {
+        return currentCoordinate;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -59,7 +59,7 @@ public class MainController {
         if (fldPlayer2IsNotValid()) {
             errorMessage += "No valid player 2\n";
         }
-        if(playersEquals()){
+        if (playersEquals()) {
             errorMessage += "Use different names for the players";
         }
         if (fldGridSizeIsNotValid()) {
@@ -84,7 +84,7 @@ public class MainController {
         return (fldPlayer2.getText() == null || fldPlayer2.getText().length() == 0);
     }
 
-    private boolean playersEquals(){
+    private boolean playersEquals() {
         return fldPlayer1.getText().equals(fldPlayer2.getText());
     }
 

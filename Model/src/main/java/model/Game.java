@@ -11,6 +11,7 @@ public class Game {
         this.grid = new Grid(gridSize);
         this.player1 = player1;
         this.player2 = player2;
+        grid.setPlayers(player1, player2);
     }
 
     public Grid getGrid() {
