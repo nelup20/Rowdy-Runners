@@ -1,12 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
     private final String name;
+    private boolean isAlive = true;
+    private List<Coordinate> pastCoordinates;
 
     public Player (String name){
         this.name = name;
+        pastCoordinates = new ArrayList<>();
     }
 
 
