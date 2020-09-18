@@ -14,6 +14,7 @@ public class Game {
         this.player2 = player2;
         grid.setPlayers(player1, player2);
         currentPlayer = player1;
+        System.out.println(player1.getCurrentCoordinate());
     }
 
     public Grid getGrid() {
@@ -24,7 +25,7 @@ public class Game {
         return currentPlayer;
     }
 
-    public void playerMove(Coordinate newCoordinate){
+    public void playerMove(Coordinate newCoordinate) {
         grid.movePlayer(currentPlayer, newCoordinate);
 
     }

@@ -17,7 +17,7 @@ public class MainApp extends Application {
     private Pane startScreen;
     private BorderPane board;
     private StartController startController;
-
+    private MainController mainController;
 
 
     @Override
@@ -76,12 +76,19 @@ public class MainApp extends Application {
             board = loader.load();
             board.setCenter(game.getGrid().getGridPane());
 
+            mainController = loader.getController();
+            mainController.setGame(game);
+            mainController.setMainApp(this);
             rootLayout.setCenter(board);
+            startRound();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void startRound() {
+        mainController.checkPossibleMove();
 
     }
 }

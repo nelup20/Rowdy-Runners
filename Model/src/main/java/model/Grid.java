@@ -39,13 +39,13 @@ public class Grid {
         return square;
     }
 
-    private Rectangle getPlayer1Square(){
+    private Rectangle getPlayer1Square() {
         Rectangle player1Square = getBasicSquare();
         player1Square.setFill(new ImagePattern(greenCar));
         return player1Square;
     }
 
-    private Rectangle getPlayer2Square(){
+    private Rectangle getPlayer2Square() {
         Rectangle player2Square = getBasicSquare();
         player2Square.setFill(new ImagePattern(orangeCar));
         return player2Square;
@@ -67,21 +67,24 @@ public class Grid {
         grid.add(getPlayer2Square(), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
     }
 
-    public void movePlayer(Player player, Coordinate newCoordinate){
-        if(player.getId() == 0) {
+    public void movePlayer(Player player, Coordinate newCoordinate) {
+        if (player.getId() == 0) {
             changeCoordinatePlayer(player, newCoordinate, getPlayer1Square());
-        } else{
+            System.out.println(player);
+        } else {
             changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
+            System.out.println(player);
         }
 
 
     }
 
-    public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Rectangle playerSquare){
+    public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Rectangle playerSquare) {
         Coordinate oldCoordinate = player.getCurrentCoordinate();
         player.setCurrentCoordinate(newCoordinate);
+        player.addCoordinate(oldCoordinate);
 
-        grid.add(getBasicSquare(), oldCoordinate.X_COORDINATE,oldCoordinate.Y_COORDINATE);
+        grid.add(getBasicSquare(), oldCoordinate.X_COORDINATE, oldCoordinate.Y_COORDINATE);
         grid.add(playerSquare, player.getCurrentCoordinate().X_COORDINATE, player.getCurrentCoordinate().getY_COORDINATE());
     }
 
