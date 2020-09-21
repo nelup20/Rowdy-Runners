@@ -39,7 +39,6 @@ public class MainController {
 
     @FXML
     void moveUp() {
-        System.out.println("button press");
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE - 1));
         playerIsMoved();
         mainApp.startRound();
@@ -80,21 +79,15 @@ public class MainController {
             btnMoveUp.setDisable(false);
         }
 
-        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 9) {
+        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1) {
+            btnMoveDown.setDisable(false);
+        }
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
+            btnMoveLeft.setDisable(false);
+        }
 
-            if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1) {
-                btnMoveDown.setDisable(false);
-            }
-            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
-                btnMoveLeft.setDisable(false);
-            }
-
-            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 9) {
-                if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1) {
-
-                    btnMoveRight.setDisable(false);
-                }
-            }
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1) {
+            btnMoveRight.setDisable(false);
         }
     }
 
