@@ -14,13 +14,15 @@ import java.util.Objects;
 public class Square extends Rectangle {
 
     private Grenade grenade;
-    private Wall wall;
+    private boolean wall;
     private LightTrail trail;
     private Player player;
     private Coordinate COORDINATE;
 
-    public static final Image greenCar = new Image("/greenCar.png");
-    public static final Image orangeCar = new Image("/orangeCar.png");
+    public static final Image GREEN_CAR = new Image("/greenCar.png");
+    public static final Image ORANGE_CAR = new Image("/orangeCar.png");
+    public static final Image WALL = new Image("/brickwall.png");
+    public static final Color sandColor = Color.rgb(235,231,209); //Color = Sand
 
 
 
@@ -31,7 +33,7 @@ public class Square extends Rectangle {
         super(600 / gridSize, 600 / gridSize);
         this.COORDINATE = coordinate;
         this.setStroke(Color.GRAY);
-        this.setFill(Color.rgb(235, 231, 209)); //Color = Sand
+        this.setFill(sandColor);
     }
 
     public Square(double width, double height, Paint fill, Coordinate coordinate) {
@@ -55,12 +57,8 @@ public class Square extends Rectangle {
         this.grenade = grenade;
     }
 
-    public Wall getWall() {
+    public boolean getWall() {
         return wall;
-    }
-
-    public void setWall(Wall wall) {
-        this.wall = wall;
     }
 
     public LightTrail getTrail() {
@@ -78,17 +76,22 @@ public class Square extends Rectangle {
     // Behavior
     public void getBasicSquare(){
         this.setStroke(Color.GRAY);
-        this.setFill(Color.rgb(235, 231, 209));
+        this.setFill(sandColor);
     }
 
-    public void getPlayerSquare(int playerNumber){
-        Image carColor = playerNumber == 1 ? greenCar : orangeCar;
-
-        getBasicSquare();
+    public void getPlayerSquare(Player player){
+        Image carColor = player.getID() == 1 ? GREEN_CAR : ORANGE_CAR;
         this.setFill(new ImagePattern(carColor));
     }
 
-    //A square is equal when the have the same coordinates:
+    public void setWallFill(){
+        this.setFill(new ImagePattern(WALL));
+        wall = true;
+    }
+
+
+
+    //A square is equal when they have the same coordinates:
 
     @Override
     public boolean equals(Object o) {

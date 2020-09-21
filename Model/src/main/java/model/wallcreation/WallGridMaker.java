@@ -3,12 +3,13 @@ package model.wallcreation;
 import java.util.Random;
 
 public class WallGridMaker {
-    private final static int SIZE = 10;
+    private final int SIZE;
     private final static double WALL_CHANCE_PERCENTAGE = 0.20;
     private char [][] wallGrid;
     private Random rand;
 
-    public WallGridMaker() {
+    public WallGridMaker(int size) {
+        this.SIZE = size;
         this.wallGrid = new char[SIZE][SIZE];
         fillWallGridWithEmptySpots();
         rand = new Random();
