@@ -1,8 +1,11 @@
 package view;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -59,7 +62,7 @@ public class MainApp extends Application {
             startStage.showAndWait();
             if (startController.gameCanStart()) {
                 game = startController.getGame();
-                setGrid();
+                setGrid(scene);
             }
 
         } catch (IOException e) {
@@ -68,7 +71,7 @@ public class MainApp extends Application {
 
     }
 
-    private void setGrid() {
+    private void setGrid(Scene scene) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -80,6 +83,7 @@ public class MainApp extends Application {
             mainController.setGame(game);
             mainController.setMainApp(this);
             rootLayout.setCenter(board);
+
             startRound();
 
         } catch (IOException e) {

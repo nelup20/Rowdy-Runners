@@ -5,9 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import model.squareContent.Grenade;
-import model.squareContent.LightTrail;
-import model.squareContent.Wall;
+import model.squareContent.*;
 
 public class Square extends Rectangle {
 
@@ -67,17 +65,17 @@ public class Square extends Rectangle {
 
 
     // Behavior
-    public static Square getBasicSquare(int gridSize){
+    public static Square createBasicSquare(int gridSize){
         Square square = new Square(600 / gridSize, 600 / gridSize);
         square.setStroke(Color.GRAY);
         square.setFill(Color.rgb(235, 231, 209));
         return square;
     }
 
-    public static Square getPlayerSquare(int playerNumber, int gridSize){
+    public static Square createPlayerSquare(int playerNumber, int gridSize){
         Image carColor = playerNumber == 1 ? greenCar : orangeCar;
 
-        Square playerSquare = Square.getBasicSquare(gridSize);
+        Square playerSquare = Square.createBasicSquare(gridSize);
         playerSquare.setFill(new ImagePattern(carColor));
         return playerSquare;
     }

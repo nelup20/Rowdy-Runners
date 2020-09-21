@@ -1,7 +1,10 @@
 package view;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Coordinate;
 import model.Game;
@@ -34,6 +37,24 @@ public class MainController {
 
     public void setGame(Game game) {
         this.game = game;
+
+
+
+        btnMoveUp.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnMoveDown.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnMoveLeft.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnMoveRight.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
     }
 
 
@@ -68,6 +89,47 @@ public class MainController {
         playerIsMoved();
         mainApp.startRound();
     }
+
+
+
+    private void moveOnKeyPress(KeyEvent event){
+        if(event.getCode() == KeyCode.UP && playerCanMove(KeyCode.UP)){
+                moveUp();
+        }
+
+        if(event.getCode() == KeyCode.DOWN && playerCanMove(KeyCode.DOWN)){
+                moveDown();
+        }
+
+        if(event.getCode() == KeyCode.LEFT && playerCanMove(KeyCode.LEFT)){
+                moveLeft();
+        }
+
+        if(event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)){
+                moveRight();
+        }
+    }
+
+
+
+    private boolean playerCanMove(KeyCode keyCode){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0 && keyCode == KeyCode.UP) {
+            return true;
+        }
+        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.DOWN){
+            return true;
+        }
+        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0 && keyCode == KeyCode.LEFT){
+            return true;
+        }
+        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.RIGHT){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     public void disableButtons(){
         btnMoveRight.setDisable(true);

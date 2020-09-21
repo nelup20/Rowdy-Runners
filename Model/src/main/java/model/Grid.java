@@ -1,8 +1,6 @@
 package model;
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.ImagePattern;
 
 
 public class Grid {
@@ -23,7 +21,7 @@ public class Grid {
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int column = 0; column < GRID_SIZE; column++) {
-                grid.add(Square.getBasicSquare(GRID_SIZE), row, column);
+                grid.add(Square.createBasicSquare(GRID_SIZE), row, column);
             }
         }
     }
@@ -41,21 +39,21 @@ public class Grid {
 
     public void startPositionP1(Player player1) {
         player1.setCurrentCoordinate(new Coordinate(GRID_SIZE - 1, 0));
-        grid.add(Square.getPlayerSquare(1, GRID_SIZE), player1.getCurrentCoordinate().X_COORDINATE, player1.getCurrentCoordinate().Y_COORDINATE);
+        grid.add(Square.createPlayerSquare(1, GRID_SIZE), player1.getCurrentCoordinate().X_COORDINATE, player1.getCurrentCoordinate().Y_COORDINATE);
 
     }
 
     public void startPositionP2(Player player2) {
         player2.setCurrentCoordinate(new Coordinate(0, GRID_SIZE - 1));
-        grid.add(Square.getPlayerSquare(2, GRID_SIZE), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
+        grid.add(Square.createPlayerSquare(2, GRID_SIZE), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
     }
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
         if (player.getId() == 0) {
-            changeCoordinatePlayer(player, newCoordinate, Square.getPlayerSquare(1, GRID_SIZE));
+            changeCoordinatePlayer(player, newCoordinate, Square.createPlayerSquare(1, GRID_SIZE));
             System.out.println(player);
         } else {
-            changeCoordinatePlayer(player, newCoordinate, Square.getPlayerSquare(2, GRID_SIZE));
+            changeCoordinatePlayer(player, newCoordinate, Square.createPlayerSquare(2, GRID_SIZE));
             System.out.println(player);
         }
 
@@ -67,7 +65,7 @@ public class Grid {
         player.setCurrentCoordinate(newCoordinate);
         player.addCoordinate(oldCoordinate);
 
-        grid.add(Square.getBasicSquare(GRID_SIZE), oldCoordinate.X_COORDINATE,oldCoordinate.Y_COORDINATE);
+        grid.add(Square.createBasicSquare(GRID_SIZE), oldCoordinate.X_COORDINATE,oldCoordinate.Y_COORDINATE);
         grid.add(playerSquare, player.getCurrentCoordinate().X_COORDINATE, player.getCurrentCoordinate().getY_COORDINATE());
     }
 

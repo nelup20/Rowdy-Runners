@@ -11,6 +11,7 @@ public class Player {
     private List<Coordinate> pastCoordinates;
     private Coordinate currentCoordinate;
     public static int idCounter = 0;
+    private boolean isStunned = false;
 
     public Player(String name) {
         this.name = name;
@@ -34,6 +35,10 @@ public class Player {
 
     public Coordinate getCurrentCoordinate() {
         return currentCoordinate;
+    }
+
+    public void isHit() {
+        isStunned = true;
     }
 
     @Override
