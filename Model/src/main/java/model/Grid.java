@@ -75,8 +75,6 @@ public class Grid {
             changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
             System.out.println(player);
         }
-
-
     }
 
     public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Rectangle playerSquare) {
