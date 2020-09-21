@@ -29,11 +29,18 @@ public class Game {
         grid.movePlayer(currentPlayer, newCoordinate);
 
         if(currentPlayer.equals(player1)){
+            player1.increaseTurnCount();
             currentPlayer = player2;
+
         } else {
+            player2.increaseTurnCount();
             currentPlayer = player1;
         }
 
+    }
+
+    public int getPlayerTurnCount(int playerNumber) {
+        return playerNumber == 1 ? player1.getTurnCount() : player2.getTurnCount();
     }
 
     public void pickUpItem() {

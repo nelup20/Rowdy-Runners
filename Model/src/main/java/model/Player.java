@@ -13,6 +13,7 @@ public class Player {
     private Coordinate currentCoordinate;
     private Grenade[] grenades;
     private boolean isStunned = false;
+    private int turnCount = 0;
 
 
     public Player(String name) {
@@ -26,6 +27,14 @@ public class Player {
 
     public int getID() {
         return ID;
+    }
+
+    public int getTurnCount(){
+        return turnCount;
+    }
+
+    public void increaseTurnCount(){
+        turnCount += 1;
     }
 
     public void setCurrentCoordinate(Coordinate coordinate) {
