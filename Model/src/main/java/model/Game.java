@@ -28,6 +28,12 @@ public class Game {
     public void playerMove(Coordinate newCoordinate) {
         grid.movePlayer(currentPlayer, newCoordinate);
 
+        if(currentPlayer.equals(player1)){
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
+
     }
 
 

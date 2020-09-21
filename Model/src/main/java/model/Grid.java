@@ -1,11 +1,9 @@
 package model;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
+
 
 public class Grid {
     public final int GRID_SIZE;
@@ -27,26 +25,23 @@ public class Grid {
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int column = 0; column < GRID_SIZE; column++) {
-                grid.add(getBasicSquare(), row, column);
+                grid.add(Square.getBasicSquare(GRID_SIZE), row, column);
             }
         }
     }
 
-    private Rectangle getBasicSquare() {
-        Rectangle square = new Rectangle(600 / GRID_SIZE, 600 / GRID_SIZE);
-        square.setStroke(Color.GRAY);
-        square.setFill(Color.rgb(235, 231, 209));
-        return square;
+    public int getGridSize() {
+        return GRID_SIZE;
     }
 
-    private Rectangle getPlayer1Square() {
-        Rectangle player1Square = getBasicSquare();
+    private Square getPlayer1Square(){
+        Square player1Square = Square.getBasicSquare(GRID_SIZE);
         player1Square.setFill(new ImagePattern(greenCar));
         return player1Square;
     }
 
-    private Rectangle getPlayer2Square() {
-        Rectangle player2Square = getBasicSquare();
+    private Square getPlayer2Square(){
+        Square player2Square = Square.getBasicSquare(GRID_SIZE);
         player2Square.setFill(new ImagePattern(orangeCar));
         return player2Square;
     }
@@ -75,14 +70,16 @@ public class Grid {
             changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
             System.out.println(player);
         }
+
+
     }
 
-    public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Rectangle playerSquare) {
+    public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Square playerSquare){
         Coordinate oldCoordinate = player.getCurrentCoordinate();
         player.setCurrentCoordinate(newCoordinate);
         player.addCoordinate(oldCoordinate);
 
-        grid.add(getBasicSquare(), oldCoordinate.X_COORDINATE, oldCoordinate.Y_COORDINATE);
+        grid.add(Square.getBasicSquare(GRID_SIZE), oldCoordinate.X_COORDINATE,oldCoordinate.Y_COORDINATE);
         grid.add(playerSquare, player.getCurrentCoordinate().X_COORDINATE, player.getCurrentCoordinate().getY_COORDINATE());
     }
 
