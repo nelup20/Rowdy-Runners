@@ -29,7 +29,10 @@ public class Grid {
             }
         }
     }
-    
+
+    public int getGridSize() {
+        return GRID_SIZE;
+    }
 
     private Square getPlayer1Square(){
         Square player1Square = Square.getBasicSquare(GRID_SIZE);
