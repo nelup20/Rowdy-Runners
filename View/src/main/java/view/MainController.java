@@ -79,14 +79,22 @@ public class MainController {
         if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
             btnMoveUp.setDisable(false);
         }
+
         if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 9) {
-            btnMoveDown.setDisable(false);
-        }
-        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
-            btnMoveLeft.setDisable(false);
-        }
-        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 9) {
-            btnMoveRight.setDisable(false);
+
+            if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1) {
+                btnMoveDown.setDisable(false);
+            }
+            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
+                btnMoveLeft.setDisable(false);
+            }
+
+            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 9) {
+                if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1) {
+
+                    btnMoveRight.setDisable(false);
+                }
+            }
         }
     }
 
