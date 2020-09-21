@@ -1,7 +1,6 @@
 package model;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -68,12 +67,12 @@ public class Grid {
     }
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
-        if (player.getId() == 0) {
+        if (player.getID() == 0) {
             changeCoordinatePlayer(player, newCoordinate, getPlayer1Square());
-            System.out.println(player);
+
         } else {
             changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
-            System.out.println(player);
+
         }
     }
 

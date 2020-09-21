@@ -24,7 +24,7 @@ public class MainController {
     private MainApp mainApp;
     private boolean isPlayerMoved = false;
 
-    public void setMainApp(MainApp mainApp){
+    public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
@@ -35,8 +35,6 @@ public class MainController {
     public void setGame(Game game) {
         this.game = game;
     }
-
-
 
 
     @FXML
@@ -64,12 +62,12 @@ public class MainController {
 
     @FXML
     void moveRight() {
-        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE ));
+        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE));
         playerIsMoved();
         mainApp.startRound();
     }
 
-    public void disableButtons(){
+    public void disableButtons() {
         btnMoveRight.setDisable(true);
         btnMoveLeft.setDisable(true);
         btnMoveDown.setDisable(true);
@@ -81,22 +79,22 @@ public class MainController {
         if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
             btnMoveUp.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 9){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 9) {
             btnMoveDown.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
             btnMoveLeft.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 9){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 9) {
             btnMoveRight.setDisable(false);
         }
     }
 
-    private void playerIsMoved(){
+    private void playerIsMoved() {
         isPlayerMoved = true;
     }
 
-    public boolean isPlayerMoved(){
+    public boolean isPlayerMoved() {
         return isPlayerMoved;
     }
 
