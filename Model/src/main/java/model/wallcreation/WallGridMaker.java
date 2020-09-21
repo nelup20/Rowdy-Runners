@@ -3,12 +3,13 @@ package model.wallcreation;
 import java.util.Random;
 
 public class WallGridMaker {
-    private final static int SIZE = 10;
+    private final int SIZE;
     private final static double WALL_CHANCE_PERCENTAGE = 0.20;
     private char [][] wallGrid;
     private Random rand;
 
-    public WallGridMaker() {
+    public WallGridMaker(int size) {
+        this.SIZE = size;
         this.wallGrid = new char[SIZE][SIZE];
         fillWallGridWithEmptySpots();
         rand = new Random();
@@ -63,8 +64,8 @@ public class WallGridMaker {
 
     private boolean wallCandidateCoversStartingSpot (Wall candidateWall) {
         boolean startingSpotCovered = false;
-        Coordinates rightUpperCorner = new Coordinates(9,0);
-        Coordinates lowerLeftCorner  = new Coordinates(0,9);
+        Coordinates rightUpperCorner = new Coordinates(SIZE-1,0);
+        Coordinates lowerLeftCorner  = new Coordinates(0,SIZE-1);
         for (Coordinates coordinates : candidateWall.getTiles()){
             if (coordinates.X == rightUpperCorner.X && coordinates.Y == rightUpperCorner.Y){
                 startingSpotCovered = true;
@@ -140,7 +141,7 @@ public class WallGridMaker {
     }
 
     private boolean coordinateOutOfBounds (int coordinate) {
-        return coordinate > 9 || coordinate < 0;
+        return coordinate > (SIZE -1) || coordinate < 0;
     }
 
     private boolean coordinatesArePartOfTheGrid (Coordinates coordinates) {

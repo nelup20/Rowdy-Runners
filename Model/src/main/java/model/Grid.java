@@ -3,6 +3,8 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
+import model.wallcreation.WallGridMaker;
+import model.wallcreation.WallMakerApp;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +34,19 @@ public class Grid {
                 grid.add(square, row, column);
             }
         }
+        addWalls();
+    }
+
+    private void addWalls(){
+        boolean[][] wallGrid = WallMakerApp.returnWallGridAsABoolean(GRID_SIZE);
+        for (int row = 0; row < wallGrid.length; row++){
+            for (int column = 0; column < wallGrid.length; column++){
+                if(wallGrid[row][column]){
+                    getSquare(new Coordinate(column, row)).setWallFill();
+                }
+            }
+        }
+
     }
 
     public void addSquare(Square square) {
@@ -62,14 +77,12 @@ public class Grid {
 
     public void startPositionP1(Player player1) {
         player1.setCurrentCoordinate(new Coordinate(GRID_SIZE - 1, 0));
-        getSquare(player1.getCurrentCoordinate()).getPlayerSquare(player1.getID());
-        //grid.add(Square.getPlayerSquare(player1.getID(), GRID_SIZE, player1.getCurrentCoordinate()), player1.getCurrentCoordinate().X_COORDINATE, player1.getCurrentCoordinate().Y_COORDINATE);
+        getSquare(player1.getCurrentCoordinate()).getPlayerSquare(player1);
     }
 
     public void startPositionP2(Player player2) {
         player2.setCurrentCoordinate(new Coordinate(0, GRID_SIZE - 1));
-        getSquare(player2.getCurrentCoordinate()).getPlayerSquare(player2.getID());
-        //grid.add(Square.getPlayerSquare(player2.getID(), GRID_SIZE, player2.getCurrentCoordinate()), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
+        getSquare(player2.getCurrentCoordinate()).getPlayerSquare(player2);
     }
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
@@ -77,19 +90,6 @@ public class Grid {
         player.setCurrentCoordinate(newCoordinate);
         player.addCoordinate(oldCoordinate);
         getSquare(oldCoordinate).getBasicSquare();
-        getSquare(player.getCurrentCoordinate()).getPlayerSquare(player.getID());
-        //changeCoordinatePlayer(player, newCoordinate, Square.getPlayerSquare(player.getID(), GRID_SIZE, player.getCurrentCoordinate()));
+        getSquare(player.getCurrentCoordinate()).getPlayerSquare(player);
     }
-
-//    private void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Square playerSquare) {
-//        Coordinate oldCoordinate = player.getCurrentCoordinate();
-//        player.setCurrentCoordinate(newCoordinate);
-//        player.addCoordinate(oldCoordinate);
-//
-//        grid.add(Square.getBasicSquare(GRID_SIZE, oldCoordinate), oldCoordinate.X_COORDINATE, oldCoordinate.Y_COORDINATE);
-//        grid.add(playerSquare, player.getCurrentCoordinate().X_COORDINATE, player.getCurrentCoordinate().getY_COORDINATE());
-//    }
-
-
-
 }
