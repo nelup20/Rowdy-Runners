@@ -13,8 +13,8 @@ public class Coordinates {
 
     public static Coordinates createRandomCoordinate (int bound) {
         Random rand = new Random();
-        int x = rand.nextInt(10);
-        int y = rand.nextInt(10);
+        int x = rand.nextInt(bound);
+        int y = rand.nextInt(bound);
         return new Coordinates(x,y);
     }
 

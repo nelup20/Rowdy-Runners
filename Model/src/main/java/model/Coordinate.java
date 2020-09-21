@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Coordinate {
     public final int X_COORDINATE;
@@ -17,6 +18,10 @@ public class Coordinate {
 
     public int getY_COORDINATE() {
         return Y_COORDINATE;
+    }
+
+    public static Coordinate randomCoordinate(int maxRandom) {
+        return new Coordinate(new Random().nextInt(maxRandom), new Random().nextInt(maxRandom));
     }
 
     @Override

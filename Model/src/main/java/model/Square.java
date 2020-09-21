@@ -9,33 +9,41 @@ import model.squareContent.Grenade;
 import model.squareContent.LightTrail;
 import model.squareContent.Wall;
 
+import java.util.Objects;
+
 public class Square extends Rectangle {
 
     private Grenade grenade;
-    private Wall wall;
+    private boolean wall;
     private LightTrail trail;
     private Player player;
+    private Coordinate COORDINATE;
 
-    public static final Image greenCar = new Image("/greenCar.png");
-    public static final Image orangeCar = new Image("/orangeCar.png");
+    public static final Image GREEN_CAR = new Image("/greenCar.png");
+    public static final Image ORANGE_CAR = new Image("/orangeCar.png");
+    public static final Image WALL = new Image("/brickwall.png");
+    public static final Color sandColor = Color.rgb(235,231,209); //Color = Sand
 
 
 
     // Constructor
-    public Square() {
 
+
+    public Square(int gridSize, Coordinate coordinate) {
+        super(600 / gridSize, 600 / gridSize);
+        this.COORDINATE = coordinate;
+        this.setStroke(Color.GRAY);
+        this.setFill(sandColor);
     }
 
-    public Square(double width, double height) {
-        super(width, height);
-    }
-
-    public Square(double width, double height, Paint fill) {
+    public Square(double width, double height, Paint fill, Coordinate coordinate) {
         super(width, height, fill);
+        this.COORDINATE = coordinate;
     }
 
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y, double width, double height, Coordinate coordinate) {
         super(x, y, width, height);
+        this.COORDINATE = coordinate;
     }
 
 
@@ -49,12 +57,8 @@ public class Square extends Rectangle {
         this.grenade = grenade;
     }
 
-    public Wall getWall() {
+    public boolean getWall() {
         return wall;
-    }
-
-    public void setWall(Wall wall) {
-        this.wall = wall;
     }
 
     public LightTrail getTrail() {
@@ -65,20 +69,40 @@ public class Square extends Rectangle {
         this.trail = trail;
     }
 
-
-    // Behavior
-    public static Square getBasicSquare(int gridSize){
-        Square square = new Square(600 / gridSize, 600 / gridSize);
-        square.setStroke(Color.GRAY);
-        square.setFill(Color.rgb(235, 231, 209));
-        return square;
+    public Coordinate getCOORDINATE() {
+        return COORDINATE;
     }
 
-    public static Square getPlayerSquare(int playerNumber, int gridSize){
-        Image carColor = playerNumber == 1 ? greenCar : orangeCar;
+    // Behavior
+    public void getBasicSquare(){
+        this.setStroke(Color.GRAY);
+        this.setFill(sandColor);
+    }
 
-        Square playerSquare = Square.getBasicSquare(gridSize);
-        playerSquare.setFill(new ImagePattern(carColor));
-        return playerSquare;
+    public void getPlayerSquare(Player player){
+        Image carColor = player.getID() == 1 ? GREEN_CAR : ORANGE_CAR;
+        this.setFill(new ImagePattern(carColor));
+    }
+
+    public void setWallFill(){
+        this.setFill(new ImagePattern(WALL));
+        wall = true;
+    }
+
+
+
+    //A square is equal when they have the same coordinates:
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return Objects.equals(COORDINATE, square.COORDINATE);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(COORDINATE);
     }
 }
