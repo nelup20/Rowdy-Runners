@@ -10,7 +10,7 @@ public class PlayGround {
     public static void main(String[] args) {
 
         Wall wall = new Wall(new Coordinates(4,4),Direction.RIGHT,3);
-        Coordinates[] tilesAround = WallGridMakerBis.tilesAroundAWall(wall);
+        Coordinates[] tilesAround = WallGridMaker.tilesAroundAWall(wall);
         System.out.println(wall);
         System.out.println(Arrays.toString(tilesAround));
         char[] charArray = new char[1];
