@@ -7,10 +7,10 @@ public class WallMakerApp {
     }
 
     public static boolean[][] returnWallGridAsABoolean(){
-        WallGridMaker wallGridMaker = new WallGridMaker();
-        wallGridMaker.createAllWallsOnTheGrid();
-        wallGridMaker.drawWallGrid();   // draw walls in terminal my x axis points downward and y axis rightward (makes no difference for starting points)
-        boolean[][] wallGridAsABoolean = wallGridMaker.getWallsAsBooleanArray();
+        WallGridMakerBis wallGridMakerBis = new WallGridMakerBis();
+        wallGridMakerBis.createAllWallsOnTheGrid();
+        wallGridMakerBis.drawWallGrid();   // draw walls in terminal my x axis points downward and y axis rightward (makes no difference for starting points)
+        boolean[][] wallGridAsABoolean = wallGridMakerBis.getWallsAsBooleanArray();
         return wallGridAsABoolean;
     }
 }

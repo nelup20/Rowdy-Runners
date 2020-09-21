@@ -2,13 +2,13 @@ package model.wallcreation;
 
 import java.util.Random;
 
-public class WallGridMaker {
+public class WallGridMakerBis {
     private final static int SIZE = 10;
     private final static double WALL_CHANCE_PERCENTAGE = 0.20;
     private char [][] wallGrid;
-    private Random rand;
+    private final Random rand;
 
-    public WallGridMaker() {
+    public WallGridMakerBis() {
         this.wallGrid = new char[SIZE][SIZE];
         fillWallGridWithEmptySpots();
         rand = new Random();
@@ -22,7 +22,6 @@ public class WallGridMaker {
             boolean thereIsStillPlaceForANewWall = true;
             while (thereIsStillPlaceForANewWall) {
                 Wall candidateWall = createRandomWall();
-                Coordinates[] tilesAroundAWall = tilesAroundAWall(candidateWall);
 
                 boolean candidateIsWithinBoundaries   =
                         checkIfWallIsOnTheGrid(candidateWall);
@@ -33,28 +32,20 @@ public class WallGridMaker {
                 if (       candidateIsWithinBoundaries
                         && candidateHasEnoughSpaceAround
                         ) {
-                    System.out.println("Total Coverage okay " + stillWithinTotalCoveragePercentage(candidateWall));
-                    System.out.println("Line  Coverage okay " + thereIsEnoughSpaceOnWallCandidatesLine(candidateWall));
+
                     if ( ! stillWithinTotalCoveragePercentage(candidateWall)) {
                         break;
                     }
                     if (       stillWithinTotalCoveragePercentage(candidateWall)
                             && thereIsEnoughSpaceOnWallCandidatesLine(candidateWall)
-                            && ! wallCandidateCoversStartingSpot(candidateWall)) {   //////////////////////
-                        addWallOntoGrid(candidateWall);
-                        thereIsStillPlaceForANewWall = false;
+                            && ! wallCandidateCoversStartingSpot(candidateWall)) {
+                                    addWallOntoGrid(candidateWall);
+                                    thereIsStillPlaceForANewWall = false;
 
                     }
                 }
-
-                // TODO
-                // check if wall covers starting spot : (0,9) and (9,0)
-                // check if wall coverage percentage not exceeded
-                // check if length bounds are okey : MAY NOT BE OFFGRID ANYMORE !!!!
             }
-
         }
-
     }
 
     private boolean stillWithinTotalCoveragePercentage (Wall candidateWall) {
@@ -66,11 +57,12 @@ public class WallGridMaker {
         Coordinates rightUpperCorner = new Coordinates(9,0);
         Coordinates lowerLeftCorner  = new Coordinates(0,9);
         for (Coordinates coordinates : candidateWall.getTiles()){
-            if (coordinates.X == rightUpperCorner.X && coordinates.Y == rightUpperCorner.Y){
-                startingSpotCovered = true;
-            } else if (coordinates.X == lowerLeftCorner.X && coordinates.Y == lowerLeftCorner.Y){
-                startingSpotCovered = true;
-
+            if (coordinates.X == rightUpperCorner.X
+             && coordinates.Y == rightUpperCorner.Y){
+                            startingSpotCovered = true;
+            } else if (coordinates.X == lowerLeftCorner.X
+                    && coordinates.Y == lowerLeftCorner.Y){
+                             startingSpotCovered = true;
             }
         }
         return startingSpotCovered;
@@ -83,7 +75,8 @@ public class WallGridMaker {
         Coordinates lastTileOnTheLine = wall.getStart();
         boolean onTheGrid = true;
         while (onTheGrid){
-            Coordinates next = new Coordinates(lastTileOnTheLine.X+direction.vector.X, lastTileOnTheLine.Y+direction.vector.Y);
+            Coordinates next = new Coordinates(lastTileOnTheLine.X+direction.vector.X,
+                                               lastTileOnTheLine.Y+direction.vector.Y);
             if ( ! coordinatesArePartOfTheGrid(next) ){
                 break;
             } else {
@@ -102,8 +95,6 @@ public class WallGridMaker {
             lastTileOnTheLine = next;
         }
         if (spacesTaken + spacesToAdd <= SIZE / 2){
-            System.out.println("Spaces  taken = " +  spacesTaken);
-            System.out.println("Spaces to add = " + spacesToAdd);
             return true;
         }
         return false;
@@ -166,7 +157,24 @@ public class WallGridMaker {
         return toReturn;
     }
 
+    /**
+     *         // this method just puts all the tiles around a Wall in an array
+     *         // just below is a small expanation which ones are named how in the code depending on the index
+     *
+     *         // backleft     (first for - loop starting from backleft)
+     *         // back         START   start+1    start+2      far-end
+     *         // backright    (second for - loop starting from backright)
+     * @param wall
+     * @return
+     */
     public static Coordinates[] tilesAroundAWall (Wall wall) {
+
+        //
+
+        // backleft     (first for - loop starting from backleft)
+        // back         START   start+1    start+2      far-end
+        // backright    (second for - loop starting from backright)
+
         int numberOfAdjacentTiles = 2 * wall.getTiles().length + 6;
         final int length = wall.getLength();
 
