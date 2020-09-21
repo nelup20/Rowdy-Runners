@@ -2,7 +2,7 @@ package model.wallcreation;
 
 public class WallMakerApp {
     public static void main(String[] args) {
-        boolean[][] wallGridAsABoolean = returnWallGridAsABoolean(11);
+        boolean[][] wallGridAsABoolean = returnWallGridAsABoolean(12);
         System.out.println("The space at coordinates (2,2) is " + wallGridAsABoolean[2][2]);
     }
 

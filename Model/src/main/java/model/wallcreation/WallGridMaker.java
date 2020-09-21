@@ -64,8 +64,8 @@ public class WallGridMaker {
 
     private boolean wallCandidateCoversStartingSpot (Wall candidateWall) {
         boolean startingSpotCovered = false;
-        Coordinates rightUpperCorner = new Coordinates(9,0);
-        Coordinates lowerLeftCorner  = new Coordinates(0,9);
+        Coordinates rightUpperCorner = new Coordinates(SIZE-1,0);
+        Coordinates lowerLeftCorner  = new Coordinates(0,SIZE-1);
         for (Coordinates coordinates : candidateWall.getTiles()){
             if (coordinates.X == rightUpperCorner.X && coordinates.Y == rightUpperCorner.Y){
                 startingSpotCovered = true;
@@ -141,7 +141,7 @@ public class WallGridMaker {
     }
 
     private boolean coordinateOutOfBounds (int coordinate) {
-        return coordinate > 9 || coordinate < 0;
+        return coordinate > (SIZE -1) || coordinate < 0;
     }
 
     private boolean coordinatesArePartOfTheGrid (Coordinates coordinates) {

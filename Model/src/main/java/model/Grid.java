@@ -34,7 +34,7 @@ public class Grid {
                 grid.add(square, row, column);
             }
         }
-        //addWalls();
+        addWalls();
     }
 
     private void addWalls(){
