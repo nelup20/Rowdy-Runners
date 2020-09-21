@@ -5,7 +5,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import model.squareContent.*;
+import model.squareContent.Grenade;
+import model.squareContent.LightTrail;
+import model.squareContent.Wall;
+
+import java.util.Objects;
 
 public class Square extends Rectangle {
 
@@ -13,6 +17,7 @@ public class Square extends Rectangle {
     private Wall wall;
     private LightTrail trail;
     private Player player;
+    private Coordinate COORDINATE;
 
     public static final Image greenCar = new Image("/greenCar.png");
     public static final Image orangeCar = new Image("/orangeCar.png");
@@ -20,20 +25,23 @@ public class Square extends Rectangle {
 
 
     // Constructor
-    public Square() {
 
+
+    public Square(int gridSize, Coordinate coordinate) {
+        super(600 / gridSize, 600 / gridSize);
+        this.COORDINATE = coordinate;
+        this.setStroke(Color.GRAY);
+        this.setFill(Color.rgb(235, 231, 209)); //Color = Sand
     }
 
-    public Square(double width, double height) {
-        super(width, height);
-    }
-
-    public Square(double width, double height, Paint fill) {
+    public Square(double width, double height, Paint fill, Coordinate coordinate) {
         super(width, height, fill);
+        this.COORDINATE = coordinate;
     }
 
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y, double width, double height, Coordinate coordinate) {
         super(x, y, width, height);
+        this.COORDINATE = coordinate;
     }
 
 
@@ -63,20 +71,35 @@ public class Square extends Rectangle {
         this.trail = trail;
     }
 
-
-    // Behavior
-    public static Square createBasicSquare(int gridSize){
-        Square square = new Square(600 / gridSize, 600 / gridSize);
-        square.setStroke(Color.GRAY);
-        square.setFill(Color.rgb(235, 231, 209));
-        return square;
+    public Coordinate getCOORDINATE() {
+        return COORDINATE;
     }
 
-    public static Square createPlayerSquare(int playerNumber, int gridSize){
+    // Behavior
+    public void getBasicSquare(){
+        this.setStroke(Color.GRAY);
+        this.setFill(Color.rgb(235, 231, 209));
+    }
+
+    public void getPlayerSquare(int playerNumber){
         Image carColor = playerNumber == 1 ? greenCar : orangeCar;
 
-        Square playerSquare = Square.createBasicSquare(gridSize);
-        playerSquare.setFill(new ImagePattern(carColor));
-        return playerSquare;
+        getBasicSquare();
+        this.setFill(new ImagePattern(carColor));
+    }
+
+    //A square is equal when the have the same coordinates:
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return Objects.equals(COORDINATE, square.COORDINATE);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(COORDINATE);
     }
 }
