@@ -93,6 +93,5 @@ public class MainApp extends Application {
 
     public void startRound() {
         mainController.checkPossibleMove();
-
     }
 }
