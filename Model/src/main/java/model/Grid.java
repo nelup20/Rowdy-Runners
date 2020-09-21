@@ -7,8 +7,6 @@ import javafx.scene.paint.ImagePattern;
 
 public class Grid {
     public final int GRID_SIZE;
-    public static final Image greenCar = new Image("/greenCar.png");
-    public static final Image orangeCar = new Image("/orangeCar.png");
     private GridPane grid = new GridPane();
 
 
@@ -34,17 +32,7 @@ public class Grid {
         return GRID_SIZE;
     }
 
-    private Square getPlayer1Square(){
-        Square player1Square = Square.getBasicSquare(GRID_SIZE);
-        player1Square.setFill(new ImagePattern(greenCar));
-        return player1Square;
-    }
 
-    private Square getPlayer2Square(){
-        Square player2Square = Square.getBasicSquare(GRID_SIZE);
-        player2Square.setFill(new ImagePattern(orangeCar));
-        return player2Square;
-    }
 
     public void setPlayers(Player player1, Player player2) {
         startPositionP1(player1);
@@ -53,21 +41,21 @@ public class Grid {
 
     public void startPositionP1(Player player1) {
         player1.setCurrentCoordinate(new Coordinate(GRID_SIZE - 1, 0));
-        grid.add(getPlayer1Square(), player1.getCurrentCoordinate().X_COORDINATE, player1.getCurrentCoordinate().Y_COORDINATE);
+        grid.add(Square.getPlayerSquare(1, GRID_SIZE), player1.getCurrentCoordinate().X_COORDINATE, player1.getCurrentCoordinate().Y_COORDINATE);
 
     }
 
     public void startPositionP2(Player player2) {
         player2.setCurrentCoordinate(new Coordinate(0, GRID_SIZE - 1));
-        grid.add(getPlayer2Square(), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
+        grid.add(Square.getPlayerSquare(2, GRID_SIZE), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
     }
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
         if (player.getId() == 0) {
-            changeCoordinatePlayer(player, newCoordinate, getPlayer1Square());
+            changeCoordinatePlayer(player, newCoordinate, Square.getPlayerSquare(1, GRID_SIZE));
             System.out.println(player);
         } else {
-            changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
+            changeCoordinatePlayer(player, newCoordinate, Square.getPlayerSquare(2, GRID_SIZE));
             System.out.println(player);
         }
 

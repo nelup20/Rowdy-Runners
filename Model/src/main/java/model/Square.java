@@ -1,6 +1,8 @@
 package model;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import model.squareContent.Grenade;
@@ -14,12 +16,9 @@ public class Square extends Rectangle {
     private LightTrail trail;
     private Player player;
 
-    public static Square getBasicSquare(int gridSize){
-        Square square = new Square(600 / gridSize, 600 / gridSize);
-        square.setStroke(Color.GRAY);
-        square.setFill(Color.rgb(235, 231, 209));
-        return square;
-    }
+    public static final Image greenCar = new Image("/greenCar.png");
+    public static final Image orangeCar = new Image("/orangeCar.png");
+
 
 
     // Constructor
@@ -68,9 +67,18 @@ public class Square extends Rectangle {
 
 
     // Behavior
-    // public void explodeGrenade(){
-//        if(player){
-//            grenade.explode();
-//        }
-//    }
+    public static Square getBasicSquare(int gridSize){
+        Square square = new Square(600 / gridSize, 600 / gridSize);
+        square.setStroke(Color.GRAY);
+        square.setFill(Color.rgb(235, 231, 209));
+        return square;
+    }
+
+    public static Square getPlayerSquare(int playerNumber, int gridSize){
+        Image carColor = playerNumber == 1 ? greenCar : orangeCar;
+
+        Square playerSquare = Square.getBasicSquare(gridSize);
+        playerSquare.setFill(new ImagePattern(carColor));
+        return playerSquare;
+    }
 }
