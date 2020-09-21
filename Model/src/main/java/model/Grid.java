@@ -59,11 +59,13 @@ public class Grid {
         grid.add(getPlayer2Square(), player2.getCurrentCoordinate().X_COORDINATE, player2.getCurrentCoordinate().Y_COORDINATE);
     }
 
-    public void movePlayer(Player player, Coordinate newCoordinate){
-        if(player.getId() == 0) {
+    public void movePlayer(Player player, Coordinate newCoordinate) {
+        if (player.getId() == 0) {
             changeCoordinatePlayer(player, newCoordinate, getPlayer1Square());
-        } else{
+            System.out.println(player);
+        } else {
             changeCoordinatePlayer(player, newCoordinate, getPlayer2Square());
+            System.out.println(player);
         }
 
 
@@ -72,6 +74,7 @@ public class Grid {
     public void changeCoordinatePlayer(Player player, Coordinate newCoordinate, Square playerSquare){
         Coordinate oldCoordinate = player.getCurrentCoordinate();
         player.setCurrentCoordinate(newCoordinate);
+        player.addCoordinate(oldCoordinate);
 
         grid.add(Square.getBasicSquare(GRID_SIZE), oldCoordinate.X_COORDINATE,oldCoordinate.Y_COORDINATE);
         grid.add(playerSquare, player.getCurrentCoordinate().X_COORDINATE, player.getCurrentCoordinate().getY_COORDINATE());
