@@ -7,7 +7,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import model.squareContent.Grenade;
 import model.squareContent.LightTrail;
-import model.squareContent.Wall;
 
 import java.util.Objects;
 
@@ -22,8 +21,8 @@ public class Square extends Rectangle {
     public static final Image GREEN_CAR = new Image("/greenCar.png");
     public static final Image ORANGE_CAR = new Image("/orangeCar.png");
     public static final Image WALL = new Image("/brickwall.png");
-    public static final Color sandColor = Color.rgb(235,231,209); //Color = Sand
-
+    public static final Image GRENADE = new Image("/grenade.png");
+    public static final Color sandColor = Color.rgb(235, 231, 209); //Color = Sand
 
 
     // Constructor
@@ -53,10 +52,6 @@ public class Square extends Rectangle {
         return grenade;
     }
 
-    public void setGrenade(Grenade grenade) {
-        this.grenade = grenade;
-    }
-
     public boolean getWall() {
         return wall;
     }
@@ -73,22 +68,38 @@ public class Square extends Rectangle {
         return COORDINATE;
     }
 
-    // Behavior
-    public void getBasicSquare(){
-        this.setStroke(Color.GRAY);
-        this.setFill(sandColor);
+    public Player getPlayer() {
+        return player;
     }
 
-    public void getPlayerSquare(Player player){
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    // Behavior
+    public void getBasicSquare() {
+        this.setStroke(Color.GRAY);
+        if (grenade == null || grenade.isActive()) {
+            this.setFill(sandColor);
+        }
+    }
+
+    public void getPlayerSquare(Player player) {
         Image carColor = player.getID() == 1 ? GREEN_CAR : ORANGE_CAR;
         this.setFill(new ImagePattern(carColor));
     }
 
-    public void setWallFill(){
+    public void setWallFill() {
         this.setFill(new ImagePattern(WALL));
         wall = true;
     }
 
+    public void addGrenade(Grenade grenade) {
+        this.grenade = grenade;
+        if (!grenade.isPickedUp()) {
+            this.setFill(new ImagePattern(GRENADE));
+        }
+    }
 
 
     //A square is equal when they have the same coordinates:
