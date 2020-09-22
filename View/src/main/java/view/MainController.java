@@ -206,7 +206,7 @@ public class MainController {
     }
 
     private void checkPossibleMovement(){
-        disableMoveButtons();
+        //disableMoveButtons();
         if(!isPlayerMoved) {
             if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
                 btnMoveUp.setDisable(false);
@@ -226,7 +226,7 @@ public class MainController {
 
     public void checkPickUpItem() {
         disablePickUpButton();
-        if(pickUpActionDone) {
+        if(!pickUpActionDone) {
             if (game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() != null) {
                 if (!game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade().isPickedUp()) {
                     btnPickItemUp.setDisable(false);

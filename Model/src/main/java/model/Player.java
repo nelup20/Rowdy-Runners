@@ -16,6 +16,7 @@ public class Player {
     private Grenade[] grenades;
     private boolean isStunned = false;
     private int turnCount = 0;
+    private int inventoryCounter = 0;
 
 
     public Player(String name) {
@@ -45,6 +46,15 @@ public class Player {
 
     public void addCoordinate(Coordinate coordinate) {
         pastCoordinates.add(coordinate);
+    }
+
+    public boolean addGrenade(Grenade grenade){
+        if(inventoryCounter < grenades.length){
+            grenades[inventoryCounter] = grenade;
+            inventoryCounter++;
+            return true;
+        }
+        return false;
     }
 
     public Coordinate getCurrentCoordinate() {

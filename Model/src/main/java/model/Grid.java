@@ -63,7 +63,7 @@ public class Grid {
         while (itemsPlaced < itemsToPlace){
             Coordinate coordinate = new Coordinate(new Random().nextInt(GRID_SIZE), new Random().nextInt(GRID_SIZE));
             if(checkEmptySquare(coordinate)){
-                getSquare(coordinate).addGrenade(new Grenade(coordinate));
+                getSquare(coordinate).addGrenade(new Grenade());
                 itemsPlaced++;
             }
         }

@@ -22,7 +22,7 @@ public class Square extends Rectangle {
     public static final Image ORANGE_CAR = new Image("/orangeCar.png");
     public static final Image WALL = new Image("/brickwall.png");
     public static final Image GRENADE = new Image("/grenade.png");
-    public static final Color sandColor = Color.rgb(235, 231, 209); //Color = Sand
+    public static final Color SAND_COLOR = Color.rgb(235, 231, 209); //Color = Sand
 
 
     // Constructor
@@ -32,7 +32,7 @@ public class Square extends Rectangle {
         super(600 / gridSize, 600 / gridSize);
         this.COORDINATE = coordinate;
         this.setStroke(Color.GRAY);
-        this.setFill(sandColor);
+        this.setFill(SAND_COLOR);
     }
 
     public Square(double width, double height, Paint fill, Coordinate coordinate) {
@@ -79,8 +79,9 @@ public class Square extends Rectangle {
     // Behavior
     public void getBasicSquare() {
         this.setStroke(Color.GRAY);
-        if (grenade == null || grenade.isActive()) {
-            this.setFill(sandColor);
+        this.setFill(SAND_COLOR);
+        if (grenade != null && (!grenade.isActive() && !grenade.isPickedUp())) {
+        this.setFill(new ImagePattern(GRENADE));
         }
     }
 

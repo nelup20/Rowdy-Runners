@@ -34,7 +34,8 @@ public class Game {
     }
 
     public void pickUpItem() {
-
+        currentPlayer.addGrenade(grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade());
+        grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade().isPickedUp(currentPlayer);
     }
 
     public void changePlayer(){
