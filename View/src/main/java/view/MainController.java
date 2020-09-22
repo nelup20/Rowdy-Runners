@@ -3,12 +3,14 @@ package view;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.skin.TextInputControlSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Coordinate;
 import model.Game;
+import model.wallcreation.Direction;
 
 public class MainController {
     @FXML
@@ -120,16 +122,27 @@ public class MainController {
 
 
     private boolean playerCanMove(KeyCode keyCode){
-        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0 && keyCode == KeyCode.UP) {
+        int currentPlayerYCoordinate = getPlayerYCoordinate();
+        int currentPlayerXCoordinate = getPlayerXCoordinate();
+
+        int gameGridSize = game.getGrid().getGridSize();
+
+        boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
+        boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
+        boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
+        boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
+
+
+        if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !isSquareAboveAWall) {
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.DOWN){
+        if(currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall){
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0 && keyCode == KeyCode.LEFT){
+        if(currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall){
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.RIGHT){
+        if(currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall){
             return true;
         } else {
             return false;
@@ -147,21 +160,21 @@ public class MainController {
 
     public void checkPossibleMove() {
         disableButtons();
-        int currentPlayerYCoordinate = game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE();
-        int currentPlayerXCoordinate = game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE();
+        int currentPlayerYCoordinate = getPlayerYCoordinate();
+        int currentPlayerXCoordinate = getPlayerXCoordinate();
 
         int gameGridSize = game.getGrid().getGridSize();
 
-        boolean isSquareUpAWall = currentPlayerYCoordinate != 0 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getWall() : false;
-        boolean isSquareDownAWall = currentPlayerYCoordinate != gameGridSize - 1 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getWall() : false;
-        boolean isSquareLeftAWall = currentPlayerXCoordinate != 0 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getWall() : false;
-        boolean isSquareRightAWall = currentPlayerXCoordinate != gameGridSize - 1 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getWall() : false;
+        boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
+        boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
+        boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
+        boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
 
 
-        if (currentPlayerYCoordinate != 0 && !isSquareUpAWall) {
+        if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall) {
             btnMoveUp.setDisable(false);
         }
-        if(currentPlayerYCoordinate != gameGridSize - 1 && !isSquareDownAWall){
+        if(currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall){
             btnMoveDown.setDisable(false);
         }
         if(currentPlayerXCoordinate != 0 && !isSquareLeftAWall){
@@ -184,4 +197,35 @@ public class MainController {
         playersTurnCountText.setText("Player 1's turns: " + game.getPlayerTurnCount(1) + "\nPlayer 2's turns: " + game.getPlayerTurnCount(2));
     }
 
+    private int getPlayerYCoordinate(){
+        return game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE();
+    }
+
+    private int getPlayerXCoordinate(){
+        return game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE();
+    }
+
+
+    private boolean checkIfWallIsNextToPlayer(Direction direction){
+        int currentPlayerYCoordinate = getPlayerYCoordinate();
+        int currentPlayerXCoordinate = getPlayerXCoordinate();
+
+        int gameGridSize = game.getGrid().getGridSize();
+
+        if(currentPlayerYCoordinate != 0 && direction == Direction.UP){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getWall();
+
+        } else if(currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getWall();
+
+        } else if(currentPlayerXCoordinate != 0 && direction == Direction.LEFT){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getWall();
+
+        } else if(currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getWall();
+
+        } else {
+            return false;
+        }
+    }
 }
