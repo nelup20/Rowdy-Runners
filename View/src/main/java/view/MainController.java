@@ -147,16 +147,27 @@ public class MainController {
 
     public void checkPossibleMove() {
         disableButtons();
-        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
+        int currentPlayerYCoordinate = game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE();
+        int currentPlayerXCoordinate = game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE();
+
+        int gameGridSize = game.getGrid().getGridSize();
+
+        boolean isSquareUpAWall = currentPlayerYCoordinate != 0 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getWall() : false;
+        boolean isSquareDownAWall = currentPlayerYCoordinate != gameGridSize - 1 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getWall() : false;
+        boolean isSquareLeftAWall = currentPlayerXCoordinate != 0 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getWall() : false;
+        boolean isSquareRightAWall = currentPlayerXCoordinate != gameGridSize - 1 ? game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getWall() : false;
+
+
+        if (currentPlayerYCoordinate != 0 && !isSquareUpAWall) {
             btnMoveUp.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1){
+        if(currentPlayerYCoordinate != gameGridSize - 1 && !isSquareDownAWall){
             btnMoveDown.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0){
+        if(currentPlayerXCoordinate != 0 && !isSquareLeftAWall){
             btnMoveLeft.setDisable(false);
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1){
+        if(currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall){
             btnMoveRight.setDisable(false);
         }
     }

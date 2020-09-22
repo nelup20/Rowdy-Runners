@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Square extends Rectangle {
 
     private Grenade grenade;
-    private boolean wall;
+    private boolean wall = false;
     private LightTrail trail;
     private Player player;
     private Coordinate COORDINATE;
