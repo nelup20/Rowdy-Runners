@@ -15,47 +15,27 @@ public class WallGridMaker {
         rand = new Random();
     }
 
+
+
     public void createAllWallsOnTheGrid () {
-        boolean gridIsNotFinishedYet = true;
         int maximumNumberOfWalls = (int) (WALL_CHANCE_PERCENTAGE * SIZE * SIZE / 2);
         int numberOfWalls = rand.nextInt(maximumNumberOfWalls)+1;
         for (int i = 0; i < numberOfWalls; i++) {
             boolean thereIsStillPlaceForANewWall = true;
             while (thereIsStillPlaceForANewWall) {
                 Wall candidateWall = createRandomWall();
-                Coordinates[] tilesAroundAWall = tilesAroundAWall(candidateWall);
 
-                boolean candidateIsWithinBoundaries   =
-                        checkIfWallIsOnTheGrid(candidateWall);
-                boolean candidateHasEnoughSpaceAround =
-                        ! checkIfAdjacentSpacesHaveBeenTakenAlready(tilesAroundAWall
-                                (candidateWall));
-
-                if (       candidateIsWithinBoundaries
-                        && candidateHasEnoughSpaceAround
-                ) {
-                    System.out.println("Total Coverage okay " + stillWithinTotalCoveragePercentage(candidateWall));
-                    System.out.println("Line  Coverage okay " + thereIsEnoughSpaceOnWallCandidatesLine(candidateWall));
+                if (wallIsOnTheGridAndThereIsEnoughSpaceAround(candidateWall)) {
                     if ( ! stillWithinTotalCoveragePercentage(candidateWall)) {
                         break;
                     }
-                    if (       stillWithinTotalCoveragePercentage(candidateWall)
-                            && thereIsEnoughSpaceOnWallCandidatesLine(candidateWall)
-                            && ! wallCandidateCoversStartingSpot(candidateWall)) {   //////////////////////
+                    if (wallIsValidToBeAddedOntoTheGrid(candidateWall)) {
                         addWallOntoGrid(candidateWall);
                         thereIsStillPlaceForANewWall = false;
-
                     }
                 }
-
-                // TODO
-                // check if wall covers starting spot : (0,9) and (9,0)
-                // check if wall coverage percentage not exceeded
-                // check if length bounds are okey : MAY NOT BE OFFGRID ANYMORE !!!!
             }
-
         }
-
     }
 
     private boolean stillWithinTotalCoveragePercentage (Wall candidateWall) {
@@ -167,21 +147,45 @@ public class WallGridMaker {
         return toReturn;
     }
 
+    private boolean wallIsOnTheGridAndThereIsEnoughSpaceAround(Wall candidateWall) {
+        return checkIfWallIsOnTheGrid(candidateWall)
+                && ! checkIfAdjacentSpacesHaveBeenTakenAlready(tilesAroundAWall(candidateWall));
+    }
+
+    private boolean wallIsValidToBeAddedOntoTheGrid(Wall candidateWall) {
+        return        stillWithinTotalCoveragePercentage(candidateWall)
+                && thereIsEnoughSpaceOnWallCandidatesLine(candidateWall)
+                && ! wallCandidateCoversStartingSpot(candidateWall);
+    }
+
+    /** this method just creates a 1D array which contains all the tiles around a wall
+     *  the indexes and tile names are conforming to the diagram underneath
+     *
+     *  /////////// backleft (first for loop .....................)
+     *  /////////// back      start  Wall    Wall     Wall  farend
+     *  /////////// backright (second for loop ...................)
+     *
+     * @param wall
+     * @return
+     */
     public static Coordinates[] tilesAroundAWall (Wall wall) {
         int numberOfAdjacentTiles = 2 * wall.getTiles().length + 6;
-        final int length = wall.getLength();
+        final int wallLength = wall.getLength();
 
         Direction direction         = wall.getDirection();
+        Direction backwards         = Direction.turnClockWise(Direction.turnClockWise(direction));
         Direction leftTurned        = Direction.turnCounterClockWise(direction);
         Direction rightTurned       = Direction.turnClockWise(direction);
 
         Coordinates[] adjacentTiles = new Coordinates[numberOfAdjacentTiles];
 
         Coordinates start = wall.getTiles()[0];
-        Coordinates back        = new Coordinates(start.X - direction.vector.X,         start.Y - direction.vector.Y );
-        Coordinates farEnd      = new Coordinates(start.X + direction.vector.X * length,start.Y + direction.vector.Y*length);
-        Coordinates backLeft    = new Coordinates(back.X  + leftTurned.vector.X,        back.Y  + leftTurned.vector.Y);
-        Coordinates backRight   = new Coordinates(back.X  + rightTurned.vector.X,       back.Y  + rightTurned.vector.Y);
+
+
+        Coordinates back        = Coordinates.moveTowardsDirection(start, backwards, 1);
+        Coordinates farEnd      = Coordinates.moveTowardsDirection(start, direction,     wallLength);
+        Coordinates backLeft    = Coordinates.moveTowardsDirection(back,  leftTurned, 1);
+        Coordinates backRight   = Coordinates.moveTowardsDirection(back,  rightTurned,1);
 
         adjacentTiles[0] = back;
         adjacentTiles[1] = backLeft;
@@ -190,14 +194,14 @@ public class WallGridMaker {
 
         int index = 0;
 
-        for (int i = 1; i <= length + 1; i++) {
+        for (int i = 1; i <= wallLength + 1; i++) {
             index = 3 + i;
             adjacentTiles[index]
                     = new Coordinates(backLeft.X + direction.vector.X*i,backLeft.Y + direction.vector.Y*i);
         }
 
-        for (int i = 1; i <= length + 1; i++){
-            index = 3 + length + i + 1;
+        for (int i = 1; i <= wallLength + 1; i++){
+            index = 3 + wallLength + i + 1;
             adjacentTiles[index]
                     = new Coordinates( backRight.X + direction.vector.X*i, backRight.Y + direction.vector.Y*i);
         }
