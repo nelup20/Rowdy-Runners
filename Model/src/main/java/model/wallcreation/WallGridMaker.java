@@ -34,8 +34,8 @@ public class WallGridMaker {
                 if (       candidateIsWithinBoundaries
                         && candidateHasEnoughSpaceAround
                         ) {
-                    System.out.println("Total Coverage okay " + stillWithinTotalCoveragePercentage(candidateWall));
-                    System.out.println("Line  Coverage okay " + thereIsEnoughSpaceOnWallCandidatesLine(candidateWall));
+//                    System.out.println("Total Coverage okay " + stillWithinTotalCoveragePercentage(candidateWall));
+//                    System.out.println("Line  Coverage okay " + thereIsEnoughSpaceOnWallCandidatesLine(candidateWall));
                     if ( ! stillWithinTotalCoveragePercentage(candidateWall)) {
                         break;
                     }
@@ -103,8 +103,8 @@ public class WallGridMaker {
             lastTileOnTheLine = next;
         }
         if (spacesTaken + spacesToAdd <= SIZE / 2){
-            System.out.println("Spaces  taken = " +  spacesTaken);
-            System.out.println("Spaces to add = " + spacesToAdd);
+//            System.out.println("Spaces  taken = " +  spacesTaken);
+//            System.out.println("Spaces to add = " + spacesToAdd);
             return true;
         }
         return false;

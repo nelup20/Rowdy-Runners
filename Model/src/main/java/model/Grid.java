@@ -28,6 +28,10 @@ public class Grid {
         return grid;
     }
 
+    public Set<Square> getSquares() {
+        return squares;
+    }
+
     private void createGrid() {
 
         for (int row = 0; row < GRID_SIZE; row++) {
