@@ -80,7 +80,7 @@ public class Square extends Rectangle {
     public void getBasicSquare() {
         this.setStroke(Color.GRAY);
         this.setFill(SAND_COLOR);
-        if (grenade != null && (!grenade.isActive() && !grenade.isPickedUp())) {
+        if (grenade != null && !grenade.isActive() && !grenade.isPickedUp()) {
         this.setFill(new ImagePattern(GRENADE));
         }
     }
