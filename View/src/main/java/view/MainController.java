@@ -189,9 +189,6 @@ public class MainController {
         isPlayerMoved = true;
     }
 
-    public boolean isPlayerMoved(){
-        return isPlayerMoved;
-    }
 
     public void updatePlayersTurnCount(){
         playersTurnCountText.setText("Player 1's turns: " + game.getPlayerTurnCount(1) + "\nPlayer 2's turns: " + game.getPlayerTurnCount(2));

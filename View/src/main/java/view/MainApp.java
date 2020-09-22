@@ -62,7 +62,7 @@ public class MainApp extends Application {
             startStage.showAndWait();
             if (startController.gameCanStart()) {
                 game = startController.getGame();
-                setGrid(scene);
+                setGrid();
             }
 
         } catch (IOException e) {
@@ -71,7 +71,7 @@ public class MainApp extends Application {
 
     }
 
-    private void setGrid(Scene scene) {
+    private void setGrid() {
 
         try {
             FXMLLoader loader = new FXMLLoader();
