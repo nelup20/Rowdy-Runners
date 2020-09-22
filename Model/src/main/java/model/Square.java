@@ -22,6 +22,7 @@ public class Square extends Rectangle {
     public static final Image GREEN_CAR = new Image("/greenCar.png");
     public static final Image ORANGE_CAR = new Image("/orangeCar.png");
     public static final Image WALL = new Image("/brickwall.png");
+    public static final Image GRENADE = new Image("/grenade.png");
     public static final Color sandColor = Color.rgb(235,231,209); //Color = Sand
 
 
@@ -53,10 +54,6 @@ public class Square extends Rectangle {
         return grenade;
     }
 
-    public void setGrenade(Grenade grenade) {
-        this.grenade = grenade;
-    }
-
     public boolean getWall() {
         return wall;
     }
@@ -73,6 +70,14 @@ public class Square extends Rectangle {
         return COORDINATE;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     // Behavior
     public void getBasicSquare(){
         this.setStroke(Color.GRAY);
@@ -87,6 +92,13 @@ public class Square extends Rectangle {
     public void setWallFill(){
         this.setFill(new ImagePattern(WALL));
         wall = true;
+    }
+
+    public void addGrenade(Grenade grenade){
+        this.grenade = grenade;
+        if(!grenade.isPickedUp()) {
+            this.setFill(new ImagePattern(GRENADE));
+        }
     }
 
 
