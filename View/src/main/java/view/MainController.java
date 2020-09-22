@@ -9,6 +9,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Coordinate;
 import model.Game;
+import model.Square;
+import model.squareContent.Grenade;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class MainController {
     @FXML
@@ -26,13 +32,25 @@ public class MainController {
     @FXML
     private Text playersTurnCountText;
 
+    @FXML
+    private Button btnEndTurn;
+
+    @FXML
+    private Button btnPlaceItem;
+
+    @FXML
+    private Button btnPickItemUp;
+
 
     private Stage mainStage;
     private Game game;
     private MainApp mainApp;
     private boolean isPlayerMoved = false;
+    private boolean pickUpActionDone = false;
+    private boolean roundEnded = false;
 
-    public void setMainApp(MainApp mainApp){
+
+    public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
@@ -91,86 +109,131 @@ public class MainController {
 
     @FXML
     void moveRight() {
-        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE ));
+        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE));
         playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
     }
 
+    @FXML
+    void endTurn() {
+
+    }
+
+    @FXML
+    void pickUpItem() {
+        pickUpActionDone = true;
+        game.pickUpItem();
+
+    }
+
+    @FXML
+    void placeItem() {
+
+    }
 
 
-    private void moveOnKeyPress(KeyEvent event){
-        if(event.getCode() == KeyCode.UP && playerCanMove(KeyCode.UP)){
-                moveUp();
+    private void moveOnKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.UP && playerCanMove(KeyCode.UP)) {
+            moveUp();
         }
 
-        if(event.getCode() == KeyCode.DOWN && playerCanMove(KeyCode.DOWN)){
-                moveDown();
+        if (event.getCode() == KeyCode.DOWN && playerCanMove(KeyCode.DOWN)) {
+            moveDown();
         }
 
-        if(event.getCode() == KeyCode.LEFT && playerCanMove(KeyCode.LEFT)){
-                moveLeft();
+        if (event.getCode() == KeyCode.LEFT && playerCanMove(KeyCode.LEFT)) {
+            moveLeft();
         }
 
-        if(event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)){
-                moveRight();
+        if (event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)) {
+            moveRight();
         }
     }
 
 
-
-    private boolean playerCanMove(KeyCode keyCode){
+    private boolean playerCanMove(KeyCode keyCode) {
         if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0 && keyCode == KeyCode.UP) {
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.DOWN){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.DOWN) {
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0 && keyCode == KeyCode.LEFT){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0 && keyCode == KeyCode.LEFT) {
             return true;
         }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.RIGHT){
+        if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1 && keyCode == KeyCode.RIGHT) {
             return true;
         } else {
             return false;
         }
     }
 
-
-
-    public void disableButtons(){
+    public void disableMoveButtons() {
         btnMoveRight.setDisable(true);
         btnMoveLeft.setDisable(true);
         btnMoveDown.setDisable(true);
         btnMoveUp.setDisable(true);
     }
 
-    public void checkPossibleMove() {
-        disableButtons();
-        if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
-            btnMoveUp.setDisable(false);
-        }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1){
-            btnMoveDown.setDisable(false);
-        }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0){
-            btnMoveLeft.setDisable(false);
-        }
-        if(game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1){
-            btnMoveRight.setDisable(false);
-        }
+    public void disablePickUpButton(){
+        btnPickItemUp.setDisable(true);
     }
 
-    private void playerIsMoved(){
+
+    private void playerIsMoved() {
         isPlayerMoved = true;
     }
 
-    public boolean isPlayerMoved(){
+    public boolean getMoveAction(){
         return isPlayerMoved;
     }
 
-    public void updatePlayersTurnCount(){
-        playersTurnCountText.setText("Player 1's turns: " + game.getPlayerTurnCount(1) + "\nPlayer 2's turns: " + game.getPlayerTurnCount(2));
+    public boolean getPickUpAction(){
+        return pickUpActionDone;
     }
+
+
+    public void updatePlayersTurnCount() {
+        playersTurnCountText.setText("Player 1's turns: " + game.getPlayerTurnCount(0) + "\nPlayer 2's turns: " + game.getPlayerTurnCount(1));
+    }
+
+
+    //In this block it will check if there are available actions.
+    public void checkPossibleActions() {
+        checkPossibleMovement();
+        checkPickUpItem();
+    }
+
+    private void checkPossibleMovement(){
+        disableMoveButtons();
+        if(!isPlayerMoved) {
+            if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != 0) {
+                btnMoveUp.setDisable(false);
+            }
+            if (game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE() != game.getGrid().getGridSize() - 1) {
+                btnMoveDown.setDisable(false);
+            }
+            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != 0) {
+                btnMoveLeft.setDisable(false);
+            }
+            if (game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE() != game.getGrid().getGridSize() - 1) {
+                btnMoveRight.setDisable(false);
+            }
+        }
+
+    }
+
+    public void checkPickUpItem() {
+        disablePickUpButton();
+        if(pickUpActionDone) {
+            if (game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() != null) {
+                if (!game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade().isPickedUp()) {
+                    btnPickItemUp.setDisable(false);
+                }
+            }
+        }
+    }
+
 
 }

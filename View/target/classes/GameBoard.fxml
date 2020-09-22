@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.shape.Line?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
             prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="view.MainController">
@@ -16,6 +15,12 @@
     <right>
         <AnchorPane prefHeight="680.0" prefWidth="230.0" BorderPane.alignment="CENTER">
             <Text fx:id="playersTurnCountText" text=""/>
+            <Button fx:id="btnEndTurn" layoutX="70.0" layoutY="569.0" mnemonicParsing="false" onAction="#endTurn"
+                    prefHeight="25.0" prefWidth="90.0" text="End Turn" AnchorPane.rightAnchor="70.0"/>
+            <Button fx:id="btnPlaceItem" layoutX="70.0" layoutY="501.0" mnemonicParsing="false" onAction="#placeItem"
+                    prefHeight="25.0" prefWidth="90.0" text="Place Item" AnchorPane.rightAnchor="70.0"/>
+            <Button fx:id="btnPickItemUp" layoutX="70.0" layoutY="430.0" mnemonicParsing="false" onAction="#pickUpItem"
+                    prefHeight="25.0" prefWidth="90.0" text="Pick up item" AnchorPane.rightAnchor="70.0"/>
 
             <children>
                 <Button fx:id="btnMoveUp" layoutX="73.0" layoutY="254.0" mnemonicParsing="false" onAction="#moveUp"

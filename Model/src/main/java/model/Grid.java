@@ -3,10 +3,13 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.ImagePattern;
+import model.squareContent.Grenade;
+import model.wallcreation.Wall;
 import model.wallcreation.WallGridMaker;
 import model.wallcreation.WallMakerApp;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -25,6 +28,10 @@ public class Grid {
         return grid;
     }
 
+    public Set<Square> getSquares() {
+        return squares;
+    }
+
     private void createGrid() {
 
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -35,6 +42,7 @@ public class Grid {
             }
         }
         addWalls();
+        placeItems();
     }
 
     private void addWalls(){
@@ -47,6 +55,22 @@ public class Grid {
             }
         }
 
+    }
+
+    private void placeItems(){
+        int itemsToPlace = GRID_SIZE/3;
+        int itemsPlaced = 0;
+        while (itemsPlaced < itemsToPlace){
+            Coordinate coordinate = new Coordinate(new Random().nextInt(GRID_SIZE), new Random().nextInt(GRID_SIZE));
+            if(checkEmptySquare(coordinate)){
+                getSquare(coordinate).addGrenade(new Grenade(coordinate));
+                itemsPlaced++;
+            }
+        }
+    }
+
+    private boolean checkEmptySquare(Coordinate coordinate){
+        return (!getSquare(coordinate).getWall() && getSquare(coordinate).getPlayer() == null );
     }
 
     public void addSquare(Square square) {
@@ -77,19 +101,28 @@ public class Grid {
 
     public void startPositionP1(Player player1) {
         player1.setCurrentCoordinate(new Coordinate(GRID_SIZE - 1, 0));
+
         getSquare(player1.getCurrentCoordinate()).getPlayerSquare(player1);
+        getSquare(player1.getCurrentCoordinate()).setPlayer(player1);
     }
 
     public void startPositionP2(Player player2) {
         player2.setCurrentCoordinate(new Coordinate(0, GRID_SIZE - 1));
+
         getSquare(player2.getCurrentCoordinate()).getPlayerSquare(player2);
+        getSquare(player2.getCurrentCoordinate()).setPlayer(player2);
     }
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
         Coordinate oldCoordinate = player.getCurrentCoordinate();
+
         player.setCurrentCoordinate(newCoordinate);
         player.addCoordinate(oldCoordinate);
+
         getSquare(oldCoordinate).getBasicSquare();
+        getSquare(oldCoordinate).setPlayer(null);
+
         getSquare(player.getCurrentCoordinate()).getPlayerSquare(player);
+        getSquare(player.getCurrentCoordinate()).setPlayer(player);
     }
 }
