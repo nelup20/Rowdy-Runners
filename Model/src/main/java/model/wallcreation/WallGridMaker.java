@@ -5,6 +5,7 @@ import java.util.Random;
 public class WallGridMaker {
     private final int SIZE;
     private final static double WALL_CHANCE_PERCENTAGE = 0.20;
+    private final static int NUMBER_OF_TILES_AT_EXTREMITIES = 6;
     private char [][] wallGrid;
     private Random rand;
 
@@ -64,7 +65,7 @@ public class WallGridMaker {
         Coordinates lastTileOnTheLine = wall.getStart();
         boolean onTheGrid = true;
         while (onTheGrid){
-            Coordinates next = new Coordinates(lastTileOnTheLine.X+direction.vector.X, lastTileOnTheLine.Y+direction.vector.Y);
+            Coordinates next = Coordinates.moveTowardsDirection(lastTileOnTheLine,direction,1);
             if ( ! coordinatesArePartOfTheGrid(next) ){
                 break;
             } else {
@@ -83,8 +84,6 @@ public class WallGridMaker {
             lastTileOnTheLine = next;
         }
         if (spacesTaken + spacesToAdd <= SIZE / 2){
-            System.out.println("Spaces  taken = " +  spacesTaken);
-            System.out.println("Spaces to add = " + spacesToAdd);
             return true;
         }
         return false;
@@ -169,7 +168,7 @@ public class WallGridMaker {
      * @return
      */
     public static Coordinates[] tilesAroundAWall (Wall wall) {
-        int numberOfAdjacentTiles = 2 * wall.getTiles().length + 6;
+        int numberOfAdjacentTiles = 2 * wall.getTiles().length + NUMBER_OF_TILES_AT_EXTREMITIES;
         final int wallLength = wall.getLength();
 
         Direction direction         = wall.getDirection();
@@ -196,14 +195,14 @@ public class WallGridMaker {
 
         for (int i = 1; i <= wallLength + 1; i++) {
             index = 3 + i;
-            adjacentTiles[index]
-                    = new Coordinates(backLeft.X + direction.vector.X*i,backLeft.Y + direction.vector.Y*i);
+            adjacentTiles[index] = Coordinates.moveTowardsDirection(backLeft, direction,i);
+
         }
 
         for (int i = 1; i <= wallLength + 1; i++){
             index = 3 + wallLength + i + 1;
-            adjacentTiles[index]
-                    = new Coordinates( backRight.X + direction.vector.X*i, backRight.Y + direction.vector.Y*i);
+            adjacentTiles[index] = Coordinates.moveTowardsDirection(backRight,direction,i);
+
         }
 
         return adjacentTiles;
