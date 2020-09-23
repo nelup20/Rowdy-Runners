@@ -27,8 +27,19 @@ public class Game {
 
     public void playerMove(Coordinate newCoordinate) {
         grid.movePlayer(currentPlayer, newCoordinate);
+    }
 
-        if(currentPlayer.equals(player1)){
+    public int getPlayerTurnCount(int playerNumber) {
+        return playerNumber == 0 ? player1.getTurnCount() : player2.getTurnCount();
+    }
+
+    public void pickUpItem() {
+        currentPlayer.addGrenade(grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade());
+        grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade().isPickedUp(currentPlayer);
+    }
+
+    public void changePlayer(){
+        if (currentPlayer.equals(player1)) {
             player1.increaseTurnCount();
             currentPlayer = player2;
 
@@ -36,14 +47,6 @@ public class Game {
             player2.increaseTurnCount();
             currentPlayer = player1;
         }
-
-    }
-
-    public int getPlayerTurnCount(int playerNumber) {
-        return playerNumber == 1 ? player1.getTurnCount() : player2.getTurnCount();
-    }
-
-    public void pickUpItem() {
 
     }
 

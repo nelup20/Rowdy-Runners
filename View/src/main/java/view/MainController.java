@@ -1,9 +1,7 @@
 package view;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.skin.TextInputControlSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -28,11 +26,24 @@ public class MainController {
     @FXML
     private Text playersTurnCountText;
 
+    @FXML
+    private Button btnEndTurn;
+
+    @FXML
+    private Button btnPlaceItem;
+
+    @FXML
+    private Button btnPickItemUp;
+
+
 
     private Stage mainStage;
     private Game game;
     private MainApp mainApp;
     private boolean isPlayerMoved = false;
+    private boolean isPickUpActionDone = false;
+    private boolean isPlaceItemDone = false;
+    private boolean endedTurn = false;
 
     public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
@@ -99,6 +110,23 @@ public class MainController {
         mainApp.startRound();
     }
 
+    @FXML
+    void endTurn() {
+
+    }
+
+    @FXML
+    void pickUpItem() {
+        game.pickUpItem();
+        isPickUpActionDone = true;
+        mainApp.startRound();
+    }
+
+    @FXML
+    void placeItem() {
+
+    }
+
 
 
     private void moveOnKeyPress(KeyEvent event){
@@ -120,8 +148,59 @@ public class MainController {
     }
 
 
+    public void checkPossibleActions(){
+        checkPossibleMove();
+        checkPossibleToPickUpItem();
+
+    }
+
+
+
+
+    public void disableMoveButtons(){
+        btnMoveRight.setDisable(true);
+        btnMoveLeft.setDisable(true);
+        btnMoveDown.setDisable(true);
+        btnMoveUp.setDisable(true);
+    }
+
+    private void disablePickUpButton(){
+        btnPickItemUp.setDisable(true);
+    }
+
+    public void checkPossibleMove() {
+        disableMoveButtons();
+        if(!isPlayerMoved) {
+            int currentPlayerYCoordinate = getPlayerYCoordinate();
+            int currentPlayerXCoordinate = getPlayerXCoordinate();
+
+            int gameGridSize = game.getGrid().getGridSize();
+
+            boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
+            boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
+            boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
+            boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
+
+
+            if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall) {
+                btnMoveUp.setDisable(false);
+            }
+            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall) {
+                btnMoveDown.setDisable(false);
+            }
+            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall) {
+                btnMoveLeft.setDisable(false);
+            }
+            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall) {
+                btnMoveRight.setDisable(false);
+            }
+        }
+    }
 
     private boolean playerCanMove(KeyCode keyCode){
+        if(isPlayerMoved){
+            return false;
+        }
         int currentPlayerYCoordinate = getPlayerYCoordinate();
         int currentPlayerXCoordinate = getPlayerXCoordinate();
 
@@ -146,42 +225,6 @@ public class MainController {
             return true;
         } else {
             return false;
-        }
-    }
-
-
-
-    public void disableButtons(){
-        btnMoveRight.setDisable(true);
-        btnMoveLeft.setDisable(true);
-        btnMoveDown.setDisable(true);
-        btnMoveUp.setDisable(true);
-    }
-
-    public void checkPossibleMove() {
-        disableButtons();
-        int currentPlayerYCoordinate = getPlayerYCoordinate();
-        int currentPlayerXCoordinate = getPlayerXCoordinate();
-
-        int gameGridSize = game.getGrid().getGridSize();
-
-        boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
-        boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
-        boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
-        boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
-
-
-        if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall) {
-            btnMoveUp.setDisable(false);
-        }
-        if(currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall){
-            btnMoveDown.setDisable(false);
-        }
-        if(currentPlayerXCoordinate != 0 && !isSquareLeftAWall){
-            btnMoveLeft.setDisable(false);
-        }
-        if(currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall){
-            btnMoveRight.setDisable(false);
         }
     }
 
@@ -224,5 +267,17 @@ public class MainController {
         } else {
             return false;
         }
+    }
+
+    private void checkPossibleToPickUpItem(){
+        disablePickUpButton();
+        if(!isPickUpActionDone){
+            if(game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() != null){
+                if(!game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade().isPickedUp()){
+                    btnPickItemUp.setDisable(false);
+                }
+            }
+        }
+
     }
 }

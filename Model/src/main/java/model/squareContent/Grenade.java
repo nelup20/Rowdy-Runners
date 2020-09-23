@@ -10,8 +10,8 @@ public class Grenade {
     private Coordinate currentCoordinate;
     private Player owner;
 
-    public Grenade(Coordinate currentCoordinate) {
-        this.currentCoordinate = currentCoordinate;
+    public Grenade() {
+
     }
 
     public boolean isActive() {
