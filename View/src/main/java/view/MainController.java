@@ -78,7 +78,6 @@ public class MainController {
 
     @FXML
     void moveUp() {
-        System.out.println("button press");
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE - 1));
         playerIsMoved();
         updatePlayersTurnCount();
@@ -112,6 +111,11 @@ public class MainController {
 
     @FXML
     void endTurn() {
+        game.changePlayer();
+        isPlayerMoved = false;
+        isPickUpActionDone = false;
+        isPlaceItemDone = false;
+        mainApp.startRound();
 
     }
 
