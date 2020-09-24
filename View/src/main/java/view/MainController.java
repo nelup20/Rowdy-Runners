@@ -162,6 +162,10 @@ public class MainController {
         if(event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)){
                 moveRight();
         }
+
+        if(event.getCode() == KeyCode.E){
+                endTurn();
+        }
     }
 
 
