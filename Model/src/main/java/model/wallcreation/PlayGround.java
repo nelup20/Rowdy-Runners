@@ -2,6 +2,10 @@ package model.wallcreation;
 
 import java.util.Arrays;
 
+/** This class is just for experimenting and checking
+ *
+ */
+
 public class PlayGround {
     public static void main(String[] args) {
 
