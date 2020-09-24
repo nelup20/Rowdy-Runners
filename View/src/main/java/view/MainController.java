@@ -73,6 +73,18 @@ public class MainController {
         btnMoveRight.setOnKeyPressed(event -> {
             moveOnKeyPress(event);
         });
+
+        btnEndTurn.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnPickItemUp.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnPlaceItem.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
     }
 
 
@@ -117,6 +129,7 @@ public class MainController {
         isPlaceItemDone = false;
         mainApp.startRound();
 
+
     }
 
     @FXML
@@ -148,6 +161,10 @@ public class MainController {
 
         if(event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)){
                 moveRight();
+        }
+
+        if(event.getCode() == KeyCode.E){
+                endTurn();
         }
     }
 
