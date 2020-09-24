@@ -155,6 +155,7 @@ public class MainController {
     public void checkPossibleActions(){
         checkPossibleMove();
         checkPossibleToPickUpItem();
+        checkPossibleToPlaceAItem();
 
     }
 
@@ -171,6 +172,8 @@ public class MainController {
     private void disablePickUpButton(){
         btnPickItemUp.setDisable(true);
     }
+
+    private void disablePlaceItemButton(){btnPlaceItem.setDisable(true);}
 
     public void checkPossibleMove() {
         disableMoveButtons();
@@ -283,5 +286,12 @@ public class MainController {
             }
         }
 
+    }
+
+    private void checkPossibleToPlaceAItem(){
+        disablePlaceItemButton();
+        if(game.getCurrentPlayer().hasItems() && game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() == null){
+            btnPlaceItem.setDisable(false);
+        }
     }
 }

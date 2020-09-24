@@ -117,4 +117,9 @@ public class Square extends Rectangle {
     public int hashCode() {
         return Objects.hash(COORDINATE);
     }
+
+    public void pickUpGrenade(Player player) {
+        grenade.isPickedUp(player);
+        this.grenade = null;
+    }
 }

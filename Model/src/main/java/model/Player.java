@@ -65,6 +65,10 @@ public class Player {
         isStunned = true;
     }
 
+    public boolean hasItems(){
+        return inventoryCounter > 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

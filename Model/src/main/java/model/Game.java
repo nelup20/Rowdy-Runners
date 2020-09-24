@@ -35,10 +35,14 @@ public class Game {
 
     public void pickUpItem() {
         currentPlayer.addGrenade(grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade());
-        grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade().isPickedUp(currentPlayer);
+        grid.getSquare(currentPlayer.getCurrentCoordinate()).pickUpGrenade(currentPlayer);
     }
 
-    public void changePlayer(){
+    public void placeItem() {
+
+    }
+
+    public void changePlayer() {
         if (currentPlayer.equals(player1)) {
             player1.increaseTurnCount();
             currentPlayer = player2;
