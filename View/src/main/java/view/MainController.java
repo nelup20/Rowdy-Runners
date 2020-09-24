@@ -112,7 +112,7 @@ public class MainController {
 
     @FXML
     void endTurn() {
-
+        game.changePlayer();
     }
 
     @FXML
