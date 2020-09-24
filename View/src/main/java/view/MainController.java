@@ -73,6 +73,18 @@ public class MainController {
         btnMoveRight.setOnKeyPressed(event -> {
             moveOnKeyPress(event);
         });
+
+        btnEndTurn.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnPickItemUp.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
+
+        btnPlaceItem.setOnKeyPressed(event -> {
+            moveOnKeyPress(event);
+        });
     }
 
 
@@ -112,14 +124,12 @@ public class MainController {
     @FXML
     void endTurn() {
         game.changePlayer();
-<<<<<<< HEAD
-=======
         isPlayerMoved = false;
         isPickUpActionDone = false;
         isPlaceItemDone = false;
         mainApp.startRound();
 
->>>>>>> cfa025a0020f13e923c67b509f6c49d0b170940d
+
     }
 
     @FXML
