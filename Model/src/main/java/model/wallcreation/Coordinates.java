@@ -18,6 +18,13 @@ public class Coordinates {
         return new Coordinates(x,y);
     }
 
+    public static Coordinates moveTowardsDirection(Coordinates coordinates, Direction direction, int numberOfTimes){
+        return new Coordinates (
+                coordinates.X + direction.vector.X * numberOfTimes,
+                coordinates.Y + direction.vector.Y*numberOfTimes
+                                );
+    }
+
     @Override
     public String toString() {
         return "(" + X + " , " + Y + ")";

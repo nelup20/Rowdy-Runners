@@ -36,9 +36,6 @@ public class Grenade {
         owner = player;
     }
 
-    public void placeGrenade(Coordinate coordinate) {
-        currentCoordinate = coordinate;
-    }
 
     public void activateGrenade() {
         isActive = true;

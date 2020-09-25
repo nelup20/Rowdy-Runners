@@ -141,6 +141,9 @@ public class MainController {
 
     @FXML
     void placeItem() {
+        game.placeItem();
+        isPlaceItemDone = true;
+        mainApp.startRound();
 
     }
 
@@ -172,6 +175,7 @@ public class MainController {
     public void checkPossibleActions(){
         checkPossibleMove();
         checkPossibleToPickUpItem();
+        checkPossibleToPlaceAItem();
 
     }
 
@@ -188,6 +192,8 @@ public class MainController {
     private void disablePickUpButton(){
         btnPickItemUp.setDisable(true);
     }
+
+    private void disablePlaceItemButton(){btnPlaceItem.setDisable(true);}
 
     public void checkPossibleMove() {
         disableMoveButtons();
@@ -251,6 +257,7 @@ public class MainController {
 
     private void playerIsMoved(){
         isPlayerMoved = true;
+        game.getGrid().setGrenadeActive(game.getCurrentPlayer());
     }
 
 
@@ -300,5 +307,14 @@ public class MainController {
             }
         }
 
+    }
+
+    private void checkPossibleToPlaceAItem(){
+        disablePlaceItemButton();
+        if(!isPlaceItemDone) {
+            if (game.getCurrentPlayer().hasItems() && game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() == null) {
+                btnPlaceItem.setDisable(false);
+            }
+        }
     }
 }

@@ -65,6 +65,10 @@ public class Player {
         isStunned = true;
     }
 
+    public boolean hasItems(){
+        return inventoryCounter > 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,4 +87,11 @@ public class Player {
         return NAME;
     }
 
+    public Grenade getGrenade() {
+        Grenade result;
+        inventoryCounter--;
+        result = grenades[inventoryCounter];
+        grenades[inventoryCounter] = null;
+        return result;
+    }
 }
