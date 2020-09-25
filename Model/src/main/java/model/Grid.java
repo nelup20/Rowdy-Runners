@@ -118,6 +118,7 @@ public class Grid {
 
     public void movePlayer(Player player, Coordinate newCoordinate) {
         Coordinate oldCoordinate = player.getCurrentCoordinate();
+        List pastCoordinates = player.getPastCoordinates();
 
         player.setCurrentCoordinate(newCoordinate);
         player.addCoordinate(oldCoordinate);
@@ -125,8 +126,31 @@ public class Grid {
         getSquare(oldCoordinate).getBasicSquare();
         getSquare(oldCoordinate).setPlayer(null);
 
+        createLightTrails(pastCoordinates);
+
         getSquare(player.getCurrentCoordinate()).getPlayerSquare(player);
         getSquare(player.getCurrentCoordinate()).setPlayer(player);
+
+    }
+
+    private void createLightTrails(List pastCoordinates) {
+        if(pastCoordinates.size() == 1){
+            getSquare((Coordinate) pastCoordinates.get((pastCoordinates.size() - 1))).setLightTrail();
+        }
+        if(pastCoordinates.size() == 2){
+            getSquare((Coordinate) pastCoordinates.get((pastCoordinates.size() - 1))).setLightTrail();
+            getSquare((Coordinate) pastCoordinates.get((pastCoordinates.size() - 2))).setLightTrail();
+        }
+
+        if(pastCoordinates.size() >= 3){
+            getSquare((Coordinate) pastCoordinates.get(pastCoordinates.size() - 1)).setLightTrail();
+            getSquare((Coordinate) pastCoordinates.get(pastCoordinates.size() - 2)).setLightTrail();
+            getSquare((Coordinate) pastCoordinates.get(pastCoordinates.size() - 3)).setLightTrail();
+        }
+
+        if(pastCoordinates.size() >= 4){
+            getSquare((Coordinate) pastCoordinates.get(pastCoordinates.size() - 4)).removeLightTrail();
+        }
     }
 
     private Predicate<Square> grenadeNotActive = square -> !square.getGrenade().isActive();
