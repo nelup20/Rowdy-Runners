@@ -36,7 +36,6 @@ public class MainController {
     private Button btnPickItemUp;
 
 
-
     private Stage mainStage;
     private Game game;
     private MainApp mainApp;
@@ -45,7 +44,7 @@ public class MainController {
     private boolean isPlaceItemDone = false;
     private boolean endedTurn = false;
 
-    public void setMainApp(MainApp mainApp){
+    public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
@@ -115,7 +114,7 @@ public class MainController {
 
     @FXML
     void moveRight() {
-        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE ));
+        game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE));
         playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
@@ -148,59 +147,73 @@ public class MainController {
     }
 
 
-
-    private void moveOnKeyPress(KeyEvent event){
-        if(event.getCode() == KeyCode.UP && playerCanMove(KeyCode.UP)){
-                moveUp();
+    private void moveOnKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.UP && playerCanMove(KeyCode.UP)) {
+            moveUp();
         }
 
-        if(event.getCode() == KeyCode.DOWN && playerCanMove(KeyCode.DOWN)){
-                moveDown();
+        if (event.getCode() == KeyCode.DOWN && playerCanMove(KeyCode.DOWN)) {
+            moveDown();
         }
 
-        if(event.getCode() == KeyCode.LEFT && playerCanMove(KeyCode.LEFT)){
-                moveLeft();
+        if (event.getCode() == KeyCode.LEFT && playerCanMove(KeyCode.LEFT)) {
+            moveLeft();
         }
 
-        if(event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)){
-                moveRight();
+        if (event.getCode() == KeyCode.RIGHT && playerCanMove(KeyCode.RIGHT)) {
+            moveRight();
         }
 
-        if(event.getCode() == KeyCode.E){
-                endTurn();
+        if (event.getCode() == KeyCode.E) {
+            endTurn();
         }
     }
 
 
-    public void checkPossibleActions(){
-        if(game.getCurrentPlayer().isStunned()){
+    public void checkPossibleActions() {
+        if (game.getCurrentPlayer().isStunned()) {
             endTurn();
         }
+        checkEndTurn();
         checkPossibleMove();
         checkPossibleToPickUpItem();
         checkPossibleToPlaceAItem();
 
     }
 
+    private void checkEndTurn() {
+        if (isPlayerMoved) {
+            btnEndTurn.setDisable(false);
+        } else if(playerFinishedActions()) {
+            endTurn();
+        }else{
+            btnEndTurn.setDisable(true);
+        }
+    }
+
+    private boolean playerFinishedActions() {
+        return(isPlayerMoved && isPlaceItemDone && isPickUpActionDone);
+    }
 
 
-
-    public void disableMoveButtons(){
+    public void disableMoveButtons() {
         btnMoveRight.setDisable(true);
         btnMoveLeft.setDisable(true);
         btnMoveDown.setDisable(true);
         btnMoveUp.setDisable(true);
     }
 
-    private void disablePickUpButton(){
+    private void disablePickUpButton() {
         btnPickItemUp.setDisable(true);
     }
 
-    private void disablePlaceItemButton(){btnPlaceItem.setDisable(true);}
+    private void disablePlaceItemButton() {
+        btnPlaceItem.setDisable(true);
+    }
 
     public void checkPossibleMove() {
         disableMoveButtons();
-        if(!isPlayerMoved) {
+        if (!isPlayerMoved) {
             int currentPlayerYCoordinate = getPlayerYCoordinate();
             int currentPlayerXCoordinate = getPlayerXCoordinate();
 
@@ -222,7 +235,6 @@ public class MainController {
             boolean isLightTrailRightAPlayer = checkIfLightTrailIsNextToPlayer(Direction.RIGHT);
 
 
-
             if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
                 btnMoveUp.setDisable(false);
             }
@@ -238,8 +250,8 @@ public class MainController {
         }
     }
 
-    private boolean playerCanMove(KeyCode keyCode){
-        if(isPlayerMoved){
+    private boolean playerCanMove(KeyCode keyCode) {
+        if (isPlayerMoved) {
             return false;
         }
         int currentPlayerYCoordinate = getPlayerYCoordinate();
@@ -266,54 +278,54 @@ public class MainController {
         if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
             return true;
         }
-        if(currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer){
+        if (currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
             return true;
         }
-        if(currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer){
+        if (currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
             return true;
         }
-        if(currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer){
+        if (currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
             return true;
         } else {
             return false;
         }
     }
 
-    private void playerIsMoved(){
+    private void playerIsMoved() {
         isPlayerMoved = true;
         game.getGrid().setGrenadeActive(game.getCurrentPlayer());
     }
 
 
-    public void updatePlayersTurnCount(){
+    public void updatePlayersTurnCount() {
         playersTurnCountText.setText("Player 1's turns: " + game.getPlayerTurnCount(1) + "\nPlayer 2's turns: " + game.getPlayerTurnCount(2));
     }
 
-    private int getPlayerYCoordinate(){
+    private int getPlayerYCoordinate() {
         return game.getCurrentPlayer().getCurrentCoordinate().getY_COORDINATE();
     }
 
-    private int getPlayerXCoordinate(){
+    private int getPlayerXCoordinate() {
         return game.getCurrentPlayer().getCurrentCoordinate().getX_COORDINATE();
     }
 
 
-    private boolean checkIfWallIsNextToPlayer(Direction direction){
+    private boolean checkIfWallIsNextToPlayer(Direction direction) {
         int currentPlayerYCoordinate = getPlayerYCoordinate();
         int currentPlayerXCoordinate = getPlayerXCoordinate();
 
         int gameGridSize = game.getGrid().getGridSize();
 
-        if(currentPlayerYCoordinate != 0 && direction == Direction.UP){
+        if (currentPlayerYCoordinate != 0 && direction == Direction.UP) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getWall();
 
-        } else if(currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN){
+        } else if (currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getWall();
 
-        } else if(currentPlayerXCoordinate != 0 && direction == Direction.LEFT){
+        } else if (currentPlayerXCoordinate != 0 && direction == Direction.LEFT) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getWall();
 
-        } else if(currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT){
+        } else if (currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getWall();
 
         } else {
@@ -321,22 +333,22 @@ public class MainController {
         }
     }
 
-    private boolean checkIfSquareIsOccupied(Direction direction){
+    private boolean checkIfSquareIsOccupied(Direction direction) {
         int currentPlayerYCoordinate = getPlayerYCoordinate();
         int currentPlayerXCoordinate = getPlayerXCoordinate();
 
         int gameGridSize = game.getGrid().getGridSize();
 
-        if(currentPlayerYCoordinate != 0 && direction == Direction.UP){
+        if (currentPlayerYCoordinate != 0 && direction == Direction.UP) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).isOccupiedByPlayer();
 
-        } else if(currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN){
+        } else if (currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).isOccupiedByPlayer();
 
-        } else if(currentPlayerXCoordinate != 0 && direction == Direction.LEFT){
+        } else if (currentPlayerXCoordinate != 0 && direction == Direction.LEFT) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
 
-        } else if(currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT){
+        } else if (currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
 
         } else {
@@ -345,22 +357,22 @@ public class MainController {
 
     }
 
-    private boolean checkIfLightTrailIsNextToPlayer(Direction direction){
+    private boolean checkIfLightTrailIsNextToPlayer(Direction direction) {
         int currentPlayerYCoordinate = getPlayerYCoordinate();
         int currentPlayerXCoordinate = getPlayerXCoordinate();
 
         int gameGridSize = game.getGrid().getGridSize();
 
-        if(direction == Direction.UP && currentPlayerYCoordinate != 0){
+        if (direction == Direction.UP && currentPlayerYCoordinate != 0) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getTrail() == null ? false : true;
 
-        } else if(direction == Direction.DOWN && currentPlayerYCoordinate != gameGridSize - 1){
+        } else if (direction == Direction.DOWN && currentPlayerYCoordinate != gameGridSize - 1) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getTrail() == null ? false : true;
 
-        } else if(direction == Direction.LEFT && currentPlayerXCoordinate != 0){
+        } else if (direction == Direction.LEFT && currentPlayerXCoordinate != 0) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getTrail() == null ? false : true;
 
-        } else if(direction == Direction.RIGHT && currentPlayerXCoordinate != gameGridSize - 1){
+        } else if (direction == Direction.RIGHT && currentPlayerXCoordinate != gameGridSize - 1) {
             return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getTrail() == null ? false : true;
 
         } else {
@@ -368,11 +380,11 @@ public class MainController {
         }
     }
 
-    private void checkPossibleToPickUpItem(){
+    private void checkPossibleToPickUpItem() {
         disablePickUpButton();
-        if(!isPickUpActionDone){
-            if(game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() != null){
-                if(!game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade().isPickedUp()){
+        if (!isPickUpActionDone) {
+            if (game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() != null) {
+                if (!game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade().isPickedUp()) {
                     btnPickItemUp.setDisable(false);
                 }
             }
@@ -380,9 +392,9 @@ public class MainController {
 
     }
 
-    private void checkPossibleToPlaceAItem(){
+    private void checkPossibleToPlaceAItem() {
         disablePlaceItemButton();
-        if(!isPlaceItemDone) {
+        if (!isPlaceItemDone) {
             if (game.getCurrentPlayer().hasItems() && game.getGrid().getSquare(game.getCurrentPlayer().getCurrentCoordinate()).getGrenade() == null) {
                 btnPlaceItem.setDisable(false);
             }

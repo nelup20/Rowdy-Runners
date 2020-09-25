@@ -90,8 +90,5 @@ public class MainApp extends Application {
 
     public void startRound() {
         mainController.checkPossibleActions();
-        //mainController.checkPickUpItem();
-
-
     }
 }
