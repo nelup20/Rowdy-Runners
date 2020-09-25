@@ -8,16 +8,19 @@ import java.util.Objects;
 
 public class Player {
     public static int idCounter = 0;
+    public static final int STUNNED_TURNS = 3;
+
     public final String NAME;
     public final int ID;
+
     private boolean isAlive = true;
     private List<Coordinate> pastCoordinates;
     private Coordinate currentCoordinate;
     private Grenade[] grenades;
-    private boolean isStunned = false;
+    private int turnsStunned;
     private int turnCount = 0;
     private int inventoryCounter = 0;
-
+    private boolean isStunned = false;
 
     public Player(String name) {
         this.NAME = name;
@@ -62,6 +65,7 @@ public class Player {
     }
 
     public void isHit() {
+        turnsStunned = STUNNED_TURNS;
         isStunned = true;
     }
 
@@ -92,6 +96,17 @@ public class Player {
         inventoryCounter--;
         result = grenades[inventoryCounter];
         grenades[inventoryCounter] = null;
+        return result;
+    }
+
+    public boolean isStunned(){
+        boolean result = false;
+        if(turnsStunned >= 0 ){
+            result = true;
+            turnsStunned--;
+        }else{
+            isStunned = false;
+        }
         return result;
     }
 }

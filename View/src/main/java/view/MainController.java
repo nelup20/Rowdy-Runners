@@ -173,6 +173,9 @@ public class MainController {
 
 
     public void checkPossibleActions(){
+        if(game.getCurrentPlayer().isStunned()){
+            endTurn();
+        }
         checkPossibleMove();
         checkPossibleToPickUpItem();
         checkPossibleToPlaceAItem();
@@ -208,17 +211,22 @@ public class MainController {
             boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
             boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
 
+            boolean isSquareAboveAPlayer = checkIfSquareIsOccupied(Direction.UP);
+            boolean isSquareBelowAPlayer = checkIfSquareIsOccupied(Direction.DOWN);
+            boolean isSquareLeftAPlayer = checkIfSquareIsOccupied(Direction.LEFT);
+            boolean isSquareRightAPlayer = checkIfSquareIsOccupied(Direction.RIGHT);
 
-            if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall) {
+
+            if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall && !isSquareAboveAPlayer) {
                 btnMoveUp.setDisable(false);
             }
-            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall) {
+            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer) {
                 btnMoveDown.setDisable(false);
             }
-            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall) {
+            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer) {
                 btnMoveLeft.setDisable(false);
             }
-            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall) {
+            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer) {
                 btnMoveRight.setDisable(false);
             }
         }
@@ -238,17 +246,22 @@ public class MainController {
         boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
         boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
 
+        boolean isSquareAboveAPlayer = checkIfSquareIsOccupied(Direction.UP);
+        boolean isSquareBelowAPlayer = checkIfSquareIsOccupied(Direction.DOWN);
+        boolean isSquareLeftAPlayer = checkIfSquareIsOccupied(Direction.LEFT);
+        boolean isSquareRightAPlayer = checkIfSquareIsOccupied(Direction.RIGHT);
 
-        if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !isSquareAboveAWall) {
+
+        if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !isSquareAboveAWall && !isSquareAboveAPlayer) {
             return true;
         }
-        if(currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall){
+        if(currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall && !isSquareBelowAPlayer){
             return true;
         }
-        if(currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall){
+        if(currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall && !isSquareLeftAPlayer){
             return true;
         }
-        if(currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall){
+        if(currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall && !isSquareRightAPlayer){
             return true;
         } else {
             return false;
@@ -295,6 +308,30 @@ public class MainController {
         } else {
             return false;
         }
+    }
+
+    private boolean checkIfSquareIsOccupied(Direction direction){
+        int currentPlayerYCoordinate = getPlayerYCoordinate();
+        int currentPlayerXCoordinate = getPlayerXCoordinate();
+
+        int gameGridSize = game.getGrid().getGridSize();
+
+        if(currentPlayerYCoordinate != 0 && direction == Direction.UP){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).isOccupiedByPlayer();
+
+        } else if(currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).isOccupiedByPlayer();
+
+        } else if(currentPlayerXCoordinate != 0 && direction == Direction.LEFT){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
+
+        } else if(currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT){
+            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
+
+        } else {
+            return false;
+        }
+
     }
 
     private void checkPossibleToPickUpItem(){
