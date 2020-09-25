@@ -173,6 +173,9 @@ public class MainController {
 
 
     public void checkPossibleActions(){
+        if(game.getCurrentPlayer().isStunned()){
+            endTurn();
+        }
         checkPossibleMove();
         checkPossibleToPickUpItem();
         checkPossibleToPlaceAItem();

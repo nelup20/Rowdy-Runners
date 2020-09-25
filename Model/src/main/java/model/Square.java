@@ -128,4 +128,8 @@ public class Square extends Rectangle {
             grenade = player.getGrenade();
         }
     }
+
+    public void removeGrenade(){
+        this.grenade = null;
+    }
 }

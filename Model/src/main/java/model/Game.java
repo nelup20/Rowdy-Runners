@@ -27,6 +27,14 @@ public class Game {
 
     public void playerMove(Coordinate newCoordinate) {
         grid.movePlayer(currentPlayer, newCoordinate);
+        activeGrenadeOnSquare();
+    }
+
+    private void activeGrenadeOnSquare() {
+        if(grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade() != null && grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade().isActive() ){
+            currentPlayer.isHit();
+            grid.getSquare(currentPlayer.getCurrentCoordinate()).removeGrenade();
+        }
     }
 
     public int getPlayerTurnCount(int playerNumber) {
@@ -44,15 +52,20 @@ public class Game {
     }
 
     public void changePlayer() {
-        if (currentPlayer.equals(player1)) {
-            player1.increaseTurnCount();
-            currentPlayer = player2;
+        if(!otherPlayerIsStunned(currentPlayer.equals(player1)? player2 : player1)) {
+            if (currentPlayer.equals(player1)) {
+                player1.increaseTurnCount();
+                currentPlayer = player2;
 
-        } else {
-            player2.increaseTurnCount();
-            currentPlayer = player1;
+            } else {
+                player2.increaseTurnCount();
+                currentPlayer = player1;
+            }
         }
+    }
 
+    private boolean otherPlayerIsStunned(Player player){
+        return player.isStunned();
     }
 
 
