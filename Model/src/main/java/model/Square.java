@@ -17,6 +17,7 @@ public class Square extends Rectangle {
     private LightTrail trail;
     private Player player;
     private Coordinate COORDINATE;
+    private boolean isOccupiedByPlayer = false;
 
     public static final Image GREEN_CAR = new Image("/greenCar.png");
     public static final Image ORANGE_CAR = new Image("/orangeCar.png");
@@ -73,6 +74,11 @@ public class Square extends Rectangle {
     }
 
     public void setPlayer(Player player) {
+        if(player != null){
+            isOccupiedByPlayer = true;
+        }else{
+            isOccupiedByPlayer = false;
+        }
         this.player = player;
     }
 
@@ -131,5 +137,9 @@ public class Square extends Rectangle {
 
     public void removeGrenade(){
         this.grenade = null;
+    }
+
+    public boolean isOccupiedByPlayer() {
+        return isOccupiedByPlayer;
     }
 }
