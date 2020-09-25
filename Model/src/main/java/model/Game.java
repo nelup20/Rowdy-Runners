@@ -34,6 +34,7 @@ public class Game {
         if(grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade() != null && grid.getSquare(currentPlayer.getCurrentCoordinate()).getGrenade().isActive() ){
             currentPlayer.isHit();
             grid.getSquare(currentPlayer.getCurrentCoordinate()).removeGrenade();
+            grid.getSquare(currentPlayer.getCurrentCoordinate()).showPlayerStunned(currentPlayer);
         }
     }
 
@@ -57,14 +58,19 @@ public class Game {
                 player1.increaseTurnCount();
                 currentPlayer = player2;
 
+
             } else {
                 player2.increaseTurnCount();
                 currentPlayer = player1;
+
             }
         }
     }
 
     private boolean otherPlayerIsStunned(Player player){
+        if(!player.isStunned()){
+            grid.getSquare(player.getCurrentCoordinate()).setPlayer(player);
+        }
         return player.isStunned();
     }
 
