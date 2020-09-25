@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 import model.squareContent.Grenade;
 import model.squareContent.LightTrail;
 
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Square extends Rectangle {
@@ -108,6 +110,15 @@ public class Square extends Rectangle {
         }
     }
 
+    public void setLightTrail(){
+        this.trail = new LightTrail();
+        this.setFill(trail.LIGHT_TRAIL_COLOR);
+    }
+
+    public void removeLightTrail(){
+        this.trail = null;
+        this.setFill(SAND_COLOR);
+    }
 
     //A square is equal when they have the same coordinates:
 

@@ -64,6 +64,10 @@ public class Player {
         return currentCoordinate;
     }
 
+    public List<Coordinate> getPastCoordinates() {
+        return pastCoordinates;
+    }
+
     public void isHit() {
         turnsStunned = STUNNED_TURNS;
         isStunned = true;
