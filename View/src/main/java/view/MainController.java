@@ -1,6 +1,7 @@
 package view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -237,15 +238,17 @@ public class MainController {
 
             if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
                 btnMoveUp.setDisable(false);
-            }
-            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
+
+            } else if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
                 btnMoveDown.setDisable(false);
-            }
-            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
+
+            } else if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
                 btnMoveLeft.setDisable(false);
-            }
-            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
+
+            } else if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
                 btnMoveRight.setDisable(false);
+            } else {
+                endGame();
             }
         }
     }
@@ -287,6 +290,10 @@ public class MainController {
         if (currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
             return true;
         } else {
+
+            // YEah yeah I know this is very inefficient, this whole file is looking kinda spaghetti-ish so we should refactor later
+            // Maybe make a checkPossibleMove method that check possible moves and then returns an enum of possible moves like PossibleMoves.UP, and if it returns .NONE then endgame
+            checkPossibleMove();
             return false;
         }
     }
@@ -399,5 +406,15 @@ public class MainController {
                 btnPlaceItem.setDisable(false);
             }
         }
+    }
+
+    private void endGame(){
+        String winningPlayer = game.getCurrentPlayer().equals(game.player1) ? "Player 2" : "Player 1";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(mainStage);
+        alert.setTitle( winningPlayer + " Won!");
+        alert.setContentText("GAME ENDED");
+        alert.showAndWait();
+        System.exit(1);
     }
 }
