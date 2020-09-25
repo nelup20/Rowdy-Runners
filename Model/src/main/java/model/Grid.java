@@ -9,8 +9,11 @@ import model.wallcreation.WallGridMaker;
 import model.wallcreation.WallMakerApp;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 public class Grid {
@@ -45,11 +48,11 @@ public class Grid {
         placeItems();
     }
 
-    private void addWalls(){
+    private void addWalls() {
         boolean[][] wallGrid = WallMakerApp.returnWallGridAsABoolean(GRID_SIZE);
-        for (int row = 0; row < wallGrid.length; row++){
-            for (int column = 0; column < wallGrid.length; column++){
-                if(wallGrid[row][column]){
+        for (int row = 0; row < wallGrid.length; row++) {
+            for (int column = 0; column < wallGrid.length; column++) {
+                if (wallGrid[row][column]) {
                     getSquare(new Coordinate(column, row)).setWallFill();
                 }
             }
@@ -57,20 +60,20 @@ public class Grid {
 
     }
 
-    private void placeItems(){
-        int itemsToPlace = GRID_SIZE/3;
+    private void placeItems() {
+        int itemsToPlace = GRID_SIZE / 3;
         int itemsPlaced = 0;
-        while (itemsPlaced < itemsToPlace){
+        while (itemsPlaced < itemsToPlace) {
             Coordinate coordinate = new Coordinate(new Random().nextInt(GRID_SIZE), new Random().nextInt(GRID_SIZE));
-            if(checkEmptySquare(coordinate)){
+            if (checkEmptySquare(coordinate)) {
                 getSquare(coordinate).addGrenade(new Grenade());
                 itemsPlaced++;
             }
         }
     }
 
-    private boolean checkEmptySquare(Coordinate coordinate){
-        return (!getSquare(coordinate).getWall() && getSquare(coordinate).getPlayer() == null );
+    private boolean checkEmptySquare(Coordinate coordinate) {
+        return (!getSquare(coordinate).getWall() && getSquare(coordinate).getPlayer() == null);
     }
 
     public void addSquare(Square square) {
@@ -81,11 +84,11 @@ public class Grid {
         return GRID_SIZE;
     }
 
-    public Square getSquare(Coordinate coordinate){
-        for (Square square:squares) {
-           if (square.getCOORDINATE().equals(coordinate)){
-               return square;
-           }
+    public Square getSquare(Coordinate coordinate) {
+        for (Square square : squares) {
+            if (square.getCOORDINATE().equals(coordinate)) {
+                return square;
+            }
         }
         throw new NullPointerException("Square with " + coordinate + " is not part of the board and impossible to use.");
     }
@@ -124,5 +127,23 @@ public class Grid {
 
         getSquare(player.getCurrentCoordinate()).getPlayerSquare(player);
         getSquare(player.getCurrentCoordinate()).setPlayer(player);
+    }
+
+    private Predicate<Square> grenadeNotActive = square -> !square.getGrenade().isActive();
+    private Predicate<Square> grenadeNotNull = square -> square.getGrenade() != null;
+    private Predicate<Square> grenadeIsPickedUp = square -> square.getGrenade().isPickedUp();
+
+
+    public void setGrenadeActive(Player player) {
+        List<Square> squaresWithGrenades = squares.stream().filter(grenadeNotNull.and(grenadeNotActive)).filter(grenadeIsPickedUp).collect(Collectors.toList());
+        if (squaresWithGrenades.size() > 0) {
+            for (Square square : squaresWithGrenades) {
+                if (!player.getCurrentCoordinate().equals(square.getCOORDINATE())) {
+                    square.getGrenade().activateGrenade();
+                    System.out.println(square.getGrenade().isActive());
+                }
+                System.out.println(square.getGrenade().isActive());
+            }
+        }
     }
 }

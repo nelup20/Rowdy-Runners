@@ -39,6 +39,7 @@ public class Game {
     }
 
     public void placeItem() {
+        grid.getSquare(currentPlayer.getCurrentCoordinate()).placeGrenade(currentPlayer);
 
     }
 

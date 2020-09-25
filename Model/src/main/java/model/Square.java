@@ -122,4 +122,10 @@ public class Square extends Rectangle {
         grenade.isPickedUp(player);
         this.grenade = null;
     }
+
+    public void placeGrenade(Player player) {
+        if(player.hasItems()){
+            grenade = player.getGrenade();
+        }
+    }
 }

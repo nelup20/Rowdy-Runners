@@ -87,4 +87,11 @@ public class Player {
         return NAME;
     }
 
+    public Grenade getGrenade() {
+        Grenade result;
+        inventoryCounter--;
+        result = grenades[inventoryCounter];
+        grenades[inventoryCounter] = null;
+        return result;
+    }
 }
