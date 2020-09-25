@@ -236,7 +236,9 @@ public class MainController {
             } else if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
                 btnMoveRight.setDisable(false);
             } else {
-                endGame();
+                if(!game.getCurrentPlayer().isStunned()){
+                    endGame();
+                }
             }
         }
     }
