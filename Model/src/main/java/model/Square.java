@@ -23,6 +23,8 @@ public class Square extends Rectangle {
 
     public static final Image GREEN_CAR = new Image("/greenCar.png");
     public static final Image ORANGE_CAR = new Image("/orangeCar.png");
+    public static final Image STUNNED_GREEN_CAR = new Image("/StunnedgreenCar.png");
+    public static final Image STUNNED_ORANGE_CAR = new Image("/StunnedorangeCar.png");
     public static final Image WALL = new Image("/brickwall.png");
     public static final Image GRENADE = new Image("/grenade.png");
     public static final Color SAND_COLOR = Color.rgb(235, 231, 209); //Color = Sand
@@ -98,6 +100,11 @@ public class Square extends Rectangle {
         this.setFill(new ImagePattern(carColor));
     }
 
+    public void showPlayerStunned(Player player){
+        Image carColor = player.getID() == 1 ? STUNNED_GREEN_CAR : STUNNED_ORANGE_CAR;
+        this.setFill(new ImagePattern(carColor));
+    }
+
     public void setWallFill() {
         this.setFill(new ImagePattern(WALL));
         wall = true;
@@ -153,4 +160,6 @@ public class Square extends Rectangle {
     public boolean isOccupiedByPlayer() {
         return isOccupiedByPlayer;
     }
+
+
 }
