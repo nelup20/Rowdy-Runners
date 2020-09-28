@@ -163,6 +163,14 @@ public class MainController {
         if (event.getCode() == KeyCode.E) {
             endTurn();
         }
+
+        if(event.getCode() == KeyCode.P){
+            pickUpItem();
+        }
+
+        if(event.getCode() == KeyCode.U){
+            placeItem();
+        }
     }
 
 
