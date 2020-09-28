@@ -124,7 +124,12 @@ public class Square extends Rectangle {
 
     public void removeLightTrail(){
         this.trail = null;
-        this.setFill(SAND_COLOR);
+
+        if (this.grenade != null) {
+            this.setFill(new ImagePattern(GRENADE));
+        } else {
+            this.setFill(SAND_COLOR);
+        }
     }
 
     //A square is equal when they have the same coordinates:
