@@ -170,4 +170,26 @@ public class Grid {
             }
         }
     }
+
+    //Get squares around player
+    public Square getSquareAbove(Coordinate coordinate){
+        Coordinate coordinateAbove = new Coordinate(coordinate.getX_COORDINATE(), coordinate.getY_COORDINATE() -1);
+        return getSquare(coordinateAbove);
+    }
+
+    public Square getSquareBelow(Coordinate coordinate){
+        Coordinate coordinateAbove = new Coordinate(coordinate.getX_COORDINATE(), coordinate.getY_COORDINATE() +1);
+        return getSquare(coordinateAbove);
+    }
+
+    public Square getSquareLeft(Coordinate coordinate){
+        Coordinate coordinateAbove = new Coordinate(coordinate.getX_COORDINATE() -1, coordinate.getY_COORDINATE());
+        return getSquare(coordinateAbove);
+    }
+
+    public Square getSquareRight(Coordinate coordinate){
+        Coordinate coordinateAbove = new Coordinate(coordinate.getX_COORDINATE() +1, coordinate.getY_COORDINATE());
+        return getSquare(coordinateAbove);
+    }
+
 }

@@ -127,6 +127,18 @@ public class Square extends Rectangle {
         this.setFill(SAND_COLOR);
     }
 
+    public void removeGrenade(){
+        this.grenade = null;
+    }
+
+    public boolean isOccupiedByPlayer() {
+        return isOccupiedByPlayer;
+    }
+
+    public boolean isSquareOccupied(){
+        return wall || player != null || trail != null;
+    }
+
     //A square is equal when they have the same coordinates:
 
     @Override
@@ -153,13 +165,7 @@ public class Square extends Rectangle {
         }
     }
 
-    public void removeGrenade(){
-        this.grenade = null;
-    }
 
-    public boolean isOccupiedByPlayer() {
-        return isOccupiedByPlayer;
-    }
 
 
 }

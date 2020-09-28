@@ -1,5 +1,7 @@
 package model;
 
+import model.wallcreation.Direction;
+
 public class Game {
 
     public static final int MIN_GRID_SIZE = 10;
@@ -84,6 +86,30 @@ public class Game {
         }
         return player.isStunned();
     }
+
+
+    //All the checks of the player is blocked to move.
+    public boolean isMovePossible(Direction direction){
+        int currentPlayerYCoordinate = currentPlayer.getCurrentCoordinate().Y_COORDINATE;
+        int currentPlayerXCoordinate = currentPlayer.getCurrentCoordinate().X_COORDINATE;
+
+        int gameGridSize = grid.getGridSize();
+
+        if(currentPlayerYCoordinate != 0 && direction == Direction.UP){
+            return grid.getSquareAbove(currentPlayer.getCurrentCoordinate()).isSquareOccupied();
+        }
+        else if(currentPlayerYCoordinate != gameGridSize -1 && direction == Direction.DOWN){
+            return grid.getSquareBelow(currentPlayer.getCurrentCoordinate()).isSquareOccupied();
+        }
+        else if(currentPlayerXCoordinate != 0 && direction == Direction.LEFT){
+            return grid.getSquareLeft(currentPlayer.getCurrentCoordinate()).isSquareOccupied();
+        }
+        else if(currentPlayerXCoordinate != gameGridSize -1 && direction == Direction.RIGHT){
+            return grid.getSquareRight(currentPlayer.getCurrentCoordinate()).isSquareOccupied();
+        }
+        return false;
+    }
+
 
 
 }

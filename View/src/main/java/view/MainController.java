@@ -218,35 +218,21 @@ public class MainController {
 
             int gameGridSize = game.getGrid().getGridSize();
 
-            boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
-            boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
-            boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
-            boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
-
-            boolean isSquareAboveAPlayer = checkIfSquareIsOccupied(Direction.UP);
-            boolean isSquareBelowAPlayer = checkIfSquareIsOccupied(Direction.DOWN);
-            boolean isSquareLeftAPlayer = checkIfSquareIsOccupied(Direction.LEFT);
-            boolean isSquareRightAPlayer = checkIfSquareIsOccupied(Direction.RIGHT);
-
-            boolean isLightTrailAboveAPlayer = checkIfLightTrailIsNextToPlayer(Direction.UP);
-            boolean isLightTrailBelowAPlayer = checkIfLightTrailIsNextToPlayer(Direction.DOWN);
-            boolean isLightTrailLeftAPlayer = checkIfLightTrailIsNextToPlayer(Direction.LEFT);
-            boolean isLightTrailRightAPlayer = checkIfLightTrailIsNextToPlayer(Direction.RIGHT);
 
 
-            if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
+            if (currentPlayerYCoordinate != 0 && !game.isMovePossible(Direction.UP)) {
                 btnMoveUp.setDisable(false);
 
             }
-            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
+            if (currentPlayerYCoordinate != gameGridSize - 1 && !game.isMovePossible(Direction.DOWN)) {
                 btnMoveDown.setDisable(false);
 
             }
-            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
+            if (currentPlayerXCoordinate != 0 && !game.isMovePossible(Direction.LEFT)) {
                 btnMoveLeft.setDisable(false);
 
             }
-            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
+            if (currentPlayerXCoordinate != gameGridSize - 1 && !game.isMovePossible(Direction.RIGHT)) {
                 btnMoveRight.setDisable(false);
             }
             if(btnMoveUp.isDisable() && btnMoveDown.isDisable() && btnMoveLeft.isDisable() && btnMoveRight.isDisable()){
@@ -265,32 +251,17 @@ public class MainController {
 
         int gameGridSize = game.getGrid().getGridSize();
 
-        boolean isSquareAboveAWall = checkIfWallIsNextToPlayer(Direction.UP);
-        boolean isSquareBelowAWall = checkIfWallIsNextToPlayer(Direction.DOWN);
-        boolean isSquareLeftAWall = checkIfWallIsNextToPlayer(Direction.LEFT);
-        boolean isSquareRightAWall = checkIfWallIsNextToPlayer(Direction.RIGHT);
 
-        boolean isSquareAboveAPlayer = checkIfSquareIsOccupied(Direction.UP);
-        boolean isSquareBelowAPlayer = checkIfSquareIsOccupied(Direction.DOWN);
-        boolean isSquareLeftAPlayer = checkIfSquareIsOccupied(Direction.LEFT);
-        boolean isSquareRightAPlayer = checkIfSquareIsOccupied(Direction.RIGHT);
-
-        boolean isLightTrailAboveAPlayer = checkIfLightTrailIsNextToPlayer(Direction.UP);
-        boolean isLightTrailBelowAPlayer = checkIfLightTrailIsNextToPlayer(Direction.DOWN);
-        boolean isLightTrailLeftAPlayer = checkIfLightTrailIsNextToPlayer(Direction.LEFT);
-        boolean isLightTrailRightAPlayer = checkIfLightTrailIsNextToPlayer(Direction.RIGHT);
-
-
-        if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
+        if (currentPlayerYCoordinate != 0 && keyCode == KeyCode.UP && !game.isMovePossible(Direction.UP)) {
             return true;
         }
-        if (currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
+        if (currentPlayerYCoordinate != gameGridSize - 1 && keyCode == KeyCode.DOWN && !game.isMovePossible(Direction.DOWN)) {
             return true;
         }
-        if (currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
+        if (currentPlayerXCoordinate != 0 && keyCode == KeyCode.LEFT && !game.isMovePossible(Direction.LEFT)) {
             return true;
         }
-        if (currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
+        if (currentPlayerXCoordinate != gameGridSize - 1 && keyCode == KeyCode.RIGHT && !game.isMovePossible(Direction.RIGHT)) {
             return true;
         } else {
 
