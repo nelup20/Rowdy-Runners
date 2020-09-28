@@ -294,75 +294,7 @@ public class MainController {
     }
 
 
-    private boolean checkIfWallIsNextToPlayer(Direction direction) {
-        int currentPlayerYCoordinate = getPlayerYCoordinate();
-        int currentPlayerXCoordinate = getPlayerXCoordinate();
 
-        int gameGridSize = game.getGrid().getGridSize();
-
-        if (currentPlayerYCoordinate != 0 && direction == Direction.UP) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getWall();
-
-        } else if (currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getWall();
-
-        } else if (currentPlayerXCoordinate != 0 && direction == Direction.LEFT) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getWall();
-
-        } else if (currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getWall();
-
-        } else {
-            return false;
-        }
-    }
-
-    private boolean checkIfSquareIsOccupied(Direction direction) {
-        int currentPlayerYCoordinate = getPlayerYCoordinate();
-        int currentPlayerXCoordinate = getPlayerXCoordinate();
-
-        int gameGridSize = game.getGrid().getGridSize();
-
-        if (currentPlayerYCoordinate != 0 && direction == Direction.UP) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).isOccupiedByPlayer();
-
-        } else if (currentPlayerYCoordinate != gameGridSize - 1 && direction == Direction.DOWN) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).isOccupiedByPlayer();
-
-        } else if (currentPlayerXCoordinate != 0 && direction == Direction.LEFT) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
-
-        } else if (currentPlayerXCoordinate != gameGridSize - 1 && direction == Direction.RIGHT) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).isOccupiedByPlayer();
-
-        } else {
-            return false;
-        }
-
-    }
-
-    private boolean checkIfLightTrailIsNextToPlayer(Direction direction) {
-        int currentPlayerYCoordinate = getPlayerYCoordinate();
-        int currentPlayerXCoordinate = getPlayerXCoordinate();
-
-        int gameGridSize = game.getGrid().getGridSize();
-
-        if (direction == Direction.UP && currentPlayerYCoordinate != 0) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate - 1)).getTrail() == null ? false : true;
-
-        } else if (direction == Direction.DOWN && currentPlayerYCoordinate != gameGridSize - 1) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate, currentPlayerYCoordinate + 1)).getTrail() == null ? false : true;
-
-        } else if (direction == Direction.LEFT && currentPlayerXCoordinate != 0) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate - 1, currentPlayerYCoordinate)).getTrail() == null ? false : true;
-
-        } else if (direction == Direction.RIGHT && currentPlayerXCoordinate != gameGridSize - 1) {
-            return game.getGrid().getSquare(new Coordinate(currentPlayerXCoordinate + 1, currentPlayerYCoordinate)).getTrail() == null ? false : true;
-
-        } else {
-            return false;
-        }
-    }
 
     private void checkPossibleToPickUpItem() {
         disablePickUpButton();
