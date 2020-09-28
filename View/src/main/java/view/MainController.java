@@ -40,7 +40,7 @@ public class MainController {
     private Stage mainStage;
     private Game game;
     private MainApp mainApp;
-    private boolean isPlayerMoved = false;
+    //private boolean isPlayerMoved = false;
     private boolean isPickUpActionDone = false;
     private boolean isPlaceItemDone = false;
     private boolean endedTurn = false;
@@ -91,7 +91,6 @@ public class MainController {
     @FXML
     void moveUp() {
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE - 1));
-        playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
 
@@ -100,7 +99,6 @@ public class MainController {
     @FXML
     void moveDown() {
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE + 1));
-        playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
     }
@@ -108,7 +106,6 @@ public class MainController {
     @FXML
     void moveLeft() {
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE - 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE));
-        playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
     }
@@ -116,7 +113,6 @@ public class MainController {
     @FXML
     void moveRight() {
         game.playerMove(new Coordinate(game.getCurrentPlayer().getCurrentCoordinate().X_COORDINATE + 1, game.getCurrentPlayer().getCurrentCoordinate().Y_COORDINATE));
-        playerIsMoved();
         updatePlayersTurnCount();
         mainApp.startRound();
     }
@@ -124,7 +120,6 @@ public class MainController {
     @FXML
     void endTurn() {
         game.changePlayer();
-        isPlayerMoved = false;
         isPickUpActionDone = false;
         isPlaceItemDone = false;
         mainApp.startRound();
@@ -183,7 +178,7 @@ public class MainController {
     }
 
     private void checkEndTurn() {
-        if (isPlayerMoved) {
+        if (game.isPlayerMoved()) {
             btnEndTurn.setDisable(false);
         } else if(playerFinishedActions()) {
             endTurn();
@@ -193,7 +188,7 @@ public class MainController {
     }
 
     private boolean playerFinishedActions() {
-        if(isPlayerMoved && isPlaceItemDone && isPickUpActionDone){
+        if(game.isPlayerMoved() && isPlaceItemDone && isPickUpActionDone){
             return true;
         }
         return false;
@@ -217,7 +212,7 @@ public class MainController {
 
     public void checkPossibleMove() {
         disableMoveButtons();
-        if (!isPlayerMoved) {
+        if (!game.isPlayerMoved()) {
             int currentPlayerYCoordinate = getPlayerYCoordinate();
             int currentPlayerXCoordinate = getPlayerXCoordinate();
 
@@ -262,7 +257,7 @@ public class MainController {
     }
 
     private boolean playerCanMove(KeyCode keyCode) {
-        if (isPlayerMoved) {
+        if (game.isPlayerMoved()) {
             return false;
         }
         int currentPlayerYCoordinate = getPlayerYCoordinate();
@@ -304,11 +299,6 @@ public class MainController {
             checkPossibleMove();
             return false;
         }
-    }
-
-    private void playerIsMoved() {
-        isPlayerMoved = true;
-        game.getGrid().setGrenadeActive(game.getCurrentPlayer());
     }
 
 

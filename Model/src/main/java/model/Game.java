@@ -7,6 +7,7 @@ public class Game {
     public final Player player2;
     public final Grid grid;
     private Player currentPlayer;
+    private boolean isPlayerMoved = false;
 
     public Game(int gridSize, Player player1, Player player2) {
         this.grid = new Grid(gridSize);
@@ -25,9 +26,18 @@ public class Game {
         return currentPlayer;
     }
 
+    public boolean isPlayerMoved(){return isPlayerMoved;}
+
+    public void playerMoved(){
+        this.isPlayerMoved = !isPlayerMoved;
+    }
+
     public void playerMove(Coordinate newCoordinate) {
         grid.movePlayer(currentPlayer, newCoordinate);
         activeGrenadeOnSquare();
+        isPlayerMoved = true;
+        getGrid().setGrenadeActive(getCurrentPlayer());
+
     }
 
     private void activeGrenadeOnSquare() {
@@ -53,6 +63,7 @@ public class Game {
     }
 
     public void changePlayer() {
+        isPlayerMoved = false;
         if(!otherPlayerIsStunned(currentPlayer.equals(player1)? player2 : player1)) {
             if (currentPlayer.equals(player1)) {
                 player1.increaseTurnCount();
