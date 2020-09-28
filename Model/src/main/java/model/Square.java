@@ -125,7 +125,7 @@ public class Square extends Rectangle {
     public void removeLightTrail(){
         this.trail = null;
 
-        if (this.grenade != null) {
+        if (this.grenade != null && !this.grenade.isActive()) {
             this.setFill(new ImagePattern(GRENADE));
         } else {
             this.setFill(SAND_COLOR);
