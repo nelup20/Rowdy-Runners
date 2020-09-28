@@ -193,7 +193,10 @@ public class MainController {
     }
 
     private boolean playerFinishedActions() {
-        return(isPlayerMoved && isPlaceItemDone && isPickUpActionDone);
+        if(isPlayerMoved && isPlaceItemDone && isPickUpActionDone){
+            return true;
+        }
+        return false;
     }
 
 
@@ -239,19 +242,22 @@ public class MainController {
             if (currentPlayerYCoordinate != 0 && !isSquareAboveAWall && !isSquareAboveAPlayer && !isLightTrailAboveAPlayer) {
                 btnMoveUp.setDisable(false);
 
-            } else if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
+            }
+            if (currentPlayerYCoordinate != gameGridSize - 1 && !isSquareBelowAWall && !isSquareBelowAPlayer && !isLightTrailBelowAPlayer) {
                 btnMoveDown.setDisable(false);
 
-            } else if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
+            }
+            if (currentPlayerXCoordinate != 0 && !isSquareLeftAWall && !isSquareLeftAPlayer && !isLightTrailLeftAPlayer) {
                 btnMoveLeft.setDisable(false);
 
-            } else if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
-                btnMoveRight.setDisable(false);
-            } else {
-                if(!game.getCurrentPlayer().isStunned()){
-                    endGame();
-                }
             }
+            if (currentPlayerXCoordinate != gameGridSize - 1 && !isSquareRightAWall && !isSquareRightAPlayer && !isLightTrailRightAPlayer) {
+                btnMoveRight.setDisable(false);
+            }
+            if(btnMoveUp.isDisable() && btnMoveDown.isDisable() && btnMoveLeft.isDisable() && btnMoveRight.isDisable()){
+                endGame();
+            }
+
         }
     }
 
